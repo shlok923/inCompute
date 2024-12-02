@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
 
     private bool isWalking;
     private Vector3 lastInteractDir;
-    //private BaseCounter selectedCounter;
+    private Interactable interactableObject;
     //private KitchenObject kitchenObject;
 
     private void Awake()
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        //gameInput.OnInteractAction += GameInput_OnInteractAction;
+        gameInput.OnInteractAction += GameInput_OnInteractAction;
         //gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
     }
 
@@ -63,13 +63,13 @@ public class Player : MonoBehaviour
     //    }
     //}
 
-    //private void GameInput_OnInteractAction(object sender, System.EventArgs e)
-    //{
-    //    if (selectedCounter != null)
-    //    {
-    //        selectedCounter.Interact(this);
-    //    }
-    //}
+    private void GameInput_OnInteractAction(object sender, System.EventArgs e)
+    {
+        if (interactableObject != null)
+        {
+            interactableObject.Interact();
+        }
+    }
 
     private void Update()
     {
@@ -89,25 +89,29 @@ public class Player : MonoBehaviour
         }
 
         float interactDistance = 2f;
-        //if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance))
-        //{
-        //    if (raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
-        //    {
-        //        // Selected counter is there
-        //        if (selectedCounter != baseCounter)
-        //        {
-        //            SetSelectedCounter(baseCounter);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        SetSelectedCounter(null);
-        //    }
-        //}
-        //else
-        //{
-        //    SetSelectedCounter(null);
-        //}
+        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance))
+        {
+            if (raycastHit.transform.TryGetComponent(out Interactable interactable))
+            {
+                interactableObject = interactable;
+                //Debug.Log("Interactable object found: " + interactable.name);
+                // Selected counter is there
+                //if (interactableObject != baseCounter)
+                //{
+                //    SetSelectedCounter(baseCounter);
+                //}
+            }
+            else
+            {
+                interactableObject = null;
+                Debug.Log("no interactable object found");
+            }
+        }
+        else
+        {
+            interactableObject = null;
+            Debug.Log("no interactable object found");
+        }
     }
 
     private void HandleMovement()
