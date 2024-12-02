@@ -31,7 +31,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private GameInput gameInput;
     [SerializeField] Transform objectHoldPoint;
+    [SerializeField] private Camera mainCamera;
 
+    private bool isPaused = false;
     private bool isWalking;
     private Vector3 lastInteractDir;
     private Interactable interactableObject;
@@ -73,6 +75,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (isPaused)
+        {
+            return;
+        }
         HandleMovement();
         HandleInteraction();
     }
@@ -94,23 +100,17 @@ public class Player : MonoBehaviour
             if (raycastHit.transform.TryGetComponent(out Interactable interactable))
             {
                 interactableObject = interactable;
-                //Debug.Log("Interactable object found: " + interactable.name);
-                // Selected counter is there
-                //if (interactableObject != baseCounter)
-                //{
-                //    SetSelectedCounter(baseCounter);
-                //}
             }
             else
             {
                 interactableObject = null;
-                Debug.Log("no interactable object found");
+                //Debug.Log("no interactable object found");
             }
         }
         else
         {
             interactableObject = null;
-            Debug.Log("no interactable object found");
+            //Debug.Log("no interactable object found");
         }
     }
 
@@ -118,15 +118,16 @@ public class Player : MonoBehaviour
     {
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
 
-        Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
+        // Convert input vector to world space relative to the camera
+        Vector3 moveDir = mainCamera.transform.right * inputVector.x + mainCamera.transform.forward * inputVector.y;
+        moveDir.y = 0f; // Keep movement horizontal
 
-        // 
         if (moveDir != Vector3.zero)
         {
             lastInteractDir = moveDir;
         }
         float moveDistance = moveSpeed * Time.deltaTime;
-        float playerRadius = 0.9f;
+        float playerRadius = 0.4f;
         float playerHeight = 2f;
         bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDir, moveDistance);
 
@@ -180,6 +181,12 @@ public class Player : MonoBehaviour
     public bool IsWalking()
     {
         return isWalking;
+    }
+
+    public void SetPaused(bool isPaused)
+    {
+        this.isPaused = isPaused;
+        Debug.Log("paused: " + isPaused);
     }
 
     //private void SetSelectedCounter(BaseCounter selectedCounter)
