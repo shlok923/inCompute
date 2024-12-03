@@ -7,16 +7,14 @@ public class PlayerTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            MessageHover._instance.ShowMessage(message);
-            Debug.Log("Player has entered the box collider!");
+            MessageHover.IsTriggered = true;
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            MessageHover._instance.HideMessage();
-            Debug.Log("Player has exited the box collider!");
+            MessageHover.IsTriggered = false;
         }
     }
 }

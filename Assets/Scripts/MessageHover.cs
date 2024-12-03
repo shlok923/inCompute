@@ -5,48 +5,34 @@ using TMPro;
 
 public class MessageHover : MonoBehaviour
 {
-    public static MessageHover _instance;
-    public TextMeshProUGUI messageText;
-    public GameObject Panel; 
-    Animator animator;
+    private Animator animator;
+    [SerializeField] private TextMeshProUGUI textMeshPro;
+    [SerializeField] private string inputText;
+    public static bool IsTriggered = false;
 
-    void Awake()
+    private void Awake()
     {
-        if (_instance != null && _instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            _instance = this;
-        }
+        animator = GetComponent<Animator>();
 
-        if (Panel != null)
+        if (textMeshPro != null)
         {
-            animator = Panel.GetComponent<Animator>();
+            textMeshPro.text = inputText;
         }
-        else
-        {
-            Debug.LogError("Panel GameObject is not assigned in MessageHover!");
-        }
+        SetTextOpacity(0f);
     }
 
-    void Start()
+    private void Update()
     {
-        gameObject.SetActive(false);
+        animator.SetBool("IsTriggered", IsTriggered);
+        SetTextOpacity(IsTriggered ? 1f : 0f);
     }
 
-    public void ShowMessage(string message)
+    private void SetTextOpacity(float alpha)
     {
-        animator.SetBool("Position", true);
-        messageText.text = message;
-        gameObject.SetActive(true);
-    }
-
-    public void HideMessage()
-    {
-        animator.SetBool("Position", false);
-        gameObject.SetActive(false);
-        messageText.text = "";
+        if (textMeshPro != null)
+        {
+            Color currentColor = textMeshPro.color;
+            textMeshPro.color = new Color(currentColor.r, currentColor.g, currentColor.b, alpha);
+        }
     }
 }
