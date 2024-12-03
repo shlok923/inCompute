@@ -8,6 +8,8 @@ public class GameInput : MonoBehaviour
     private PlayerInputActions playerInputActions;
     public event EventHandler OnInteractAction;
     public event EventHandler OnInteractAlternateAction;
+    public event EventHandler OnMirrorRotationAction; 
+
 
     private void Awake()
     {
@@ -16,6 +18,12 @@ public class GameInput : MonoBehaviour
 
         playerInputActions.Player.Interact.performed += Interact_performed;
         playerInputActions.Player.InteractAlternate.performed += InteractAlternate_performed;
+        playerInputActions.Player.RotateMirror.performed += RotateMirror_performed;
+    }
+
+    private void RotateMirror_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnMirrorRotationAction?.Invoke(this, EventArgs.Empty);
     }
 
     private void InteractAlternate_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

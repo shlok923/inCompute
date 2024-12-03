@@ -10,6 +10,7 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] private float cellSize = 1f; // Size of each cell
     [SerializeField] private float mazeRegenerationInterval = 10f; // Time interval to regenerate the maze
     [SerializeField] private float animationDuration = 1f; // Duration of sinking/rising animations
+    [SerializeField] private float transitionPauseDuration = 1f; // Pause duration between transitions
     [SerializeField] private Player player; // Reference to the player object
 
     private bool[,] currentMaze; // Current maze grid
@@ -204,6 +205,7 @@ public class MazeGenerator : MonoBehaviour
 
         currentMaze = newMaze; // Update reference to the new maze
         yield return new WaitForSeconds(animationDuration);
+        yield return new WaitForSeconds(transitionPauseDuration);
         player.SetPaused(false);
     }
 

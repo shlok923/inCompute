@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IObjectParent
 {
     // Singleton----
     public static Player instance;
@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
     private bool isWalking;
     private Vector3 lastInteractDir;
     private Interactable interactableObject;
+    [SerializeField] private PickupObject heldObject;
+
     //private KitchenObject kitchenObject;
 
     private void Awake()
@@ -55,13 +57,19 @@ public class Player : MonoBehaviour
     {
         gameInput.OnInteractAction += GameInput_OnInteractAction;
         //gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
+        gameInput.OnMirrorRotationAction += GameInput_OnMirrorRotationAction;
+    }
+
+    private void GameInput_OnMirrorRotationAction(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
     }
 
     //private void GameInput_OnInteractAlternateAction(object sender, EventArgs e)
     //{
-    //    if (selectedCounter != null)
+    //    if (interactableObject != null)
     //    {
-    //        selectedCounter.InteractAlternate(this);
+    //        interactableObject.InteractAlternate();
     //    }
     //}
 
@@ -69,7 +77,7 @@ public class Player : MonoBehaviour
     {
         if (interactableObject != null)
         {
-            interactableObject.Interact();
+            interactableObject.Interact(this);
         }
     }
 
@@ -100,6 +108,7 @@ public class Player : MonoBehaviour
             if (raycastHit.transform.TryGetComponent(out Interactable interactable))
             {
                 interactableObject = interactable;
+                Debug.Log("interactable object found");
             }
             else
             {
@@ -189,33 +198,28 @@ public class Player : MonoBehaviour
         Debug.Log("paused: " + isPaused);
     }
 
-    //private void SetSelectedCounter(BaseCounter selectedCounter)
-    //{
-    //    this.selectedCounter = selectedCounter;
-    //    OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs { selectedCounter = selectedCounter });
-    //}
+    public Transform ObjectFollowTransform()
+    {
+        return objectHoldPoint;
+    }
 
-    //public Transform KitchenObjectFollowTransform()
-    //{
-    //    return kitchenObjectHoldPoint;
-    //}
+    public void SetObject(PickupObject heldObject)
+    {
+        this.heldObject = heldObject;
+    }
 
-    //public void SetKitchenObject(KitchenObject kitchenObject)
-    //{
-    //    this.kitchenObject = kitchenObject;
-    //}
+    public PickupObject GetObject()
+    {
+        return heldObject;
+    }
 
-    //public KitchenObject GetKitchenObject()
-    //{
-    //    return kitchenObject;
-    //}
+    public void ClearObject()
+    {
+        heldObject = null;
+    }
 
-    //public void ClearKitchenObject()
-    //{
-    //    kitchenObject = null;
-    //}
-    //public bool HasKitchenObject()
-    //{
-    //    return kitchenObject != null;
-    //}
+    public bool HasObject()
+    {
+        return heldObject != null;
+    }
 }

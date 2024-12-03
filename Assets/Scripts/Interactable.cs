@@ -1,32 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
-    public InteractableSO interactableData;
+    public string interactableName;
 
-    public virtual void Interact()
+    public virtual void Interact(Player player)
     {
-        if (interactableData != null)
-        {
-            Debug.Log("Interacting with: " + interactableData.objectName);
-
-            if (interactableData.triggersEvent)
-            {
-                Debug.Log("Triggering event: " + interactableData.objectName);
-                // trigger some event
-            }
-
-            if (interactableData.isPickable)
-            {
-                Debug.Log("Picking up: " + interactableData.objectName);
-                // pickup or move to inventory type shit
-            }
-        }
-        else
-        {
-            Debug.Log("int data null!");
-        }
+        Debug.Log($"Interacting with {interactableName}");
     }
 }
