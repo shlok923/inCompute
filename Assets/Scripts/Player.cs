@@ -62,7 +62,10 @@ public class Player : MonoBehaviour, IObjectParent
 
     private void GameInput_OnMirrorRotationAction(object sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        if (interactableObject != null && interactableObject.TryGetComponent<Mirror>(out Mirror mirror))
+        {
+            mirror.ToggleRotationState();
+        }
     }
 
     //private void GameInput_OnInteractAlternateAction(object sender, EventArgs e)
