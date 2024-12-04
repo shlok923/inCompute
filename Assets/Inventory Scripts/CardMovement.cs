@@ -9,36 +9,44 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     public enum CardStates {
         idle,
         hover,
+        info,
         play
     }
 
     public CardStates cardState = CardStates.idle;
-    public GameObject highlight;
-    public Transform hoverPlaceholder;
+    private Vector3 originalPosition;
+    private Vector3 originalScale;
+
+    public bool canInteract = true;
+    private CardHolder holder;
+    private CardPlayManager playManager;
+    private CardInfoManager infoManager;
 
     public RectTransform bounds;
     public Canvas UI;
 
-    private Vector3 originalPosition;
-    private Vector3 originalScale;
-
-    public bool isPlayable = true;
+    public GameObject highlight;
+    public Transform hoverPlaceholder;
 
     private void Awake() {
         originalPosition = bounds.localPosition;
         originalScale = bounds.localScale;
 
+        holder = GetComponentInParent<CardHolder>();
+        playManager = GetComponentInParent<CardPlayManager>();
+        infoManager = GetComponentInParent<CardInfoManager>();
+
         UI.overrideSorting = true;
         UI.sortingOrder = 1;
     }
 
-    private void Update() {
+    private void UpdateState() {
         switch (cardState) {
             case CardStates.hover:
                 HoverState();
                 break;
-            case CardStates.play:
-                PlayState();
+            case CardStates.info:
+                InfoState();
                 break;
             default:
                 IdleState();
@@ -46,7 +54,7 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         }
     }
 
-    private void IdleState() {
+    public void IdleState() {
         highlight.SetActive(false);
 
         bounds.localPosition = originalPosition;
@@ -64,28 +72,29 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
         UI.sortingOrder = 2;
     }
 
-    private void PlayState() {
+    private void InfoState() {
         highlight.SetActive(false);
+        infoManager.ShowInfo(gameObject);
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        if (cardState == CardStates.idle && isPlayable) {
-            originalPosition = bounds.localPosition;
-            originalScale = bounds.localScale;
-
+        if (cardState == CardStates.idle && canInteract) {
             cardState = CardStates.hover;
+            UpdateState();
         }
     }
 
     public void OnPointerExit(PointerEventData eventData) {
-        if (cardState == CardStates.hover && isPlayable) {
+        if (cardState == CardStates.hover && canInteract) {
             cardState = CardStates.idle;
+            UpdateState();
         }
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        if (cardState == CardStates.hover && isPlayable) {
-            cardState = CardStates.play;
+        if (cardState == CardStates.hover && canInteract) {
+            cardState = CardStates.info;
+            UpdateState();
         }
     }
 }

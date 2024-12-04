@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class CardHolder : MonoBehaviour {
     public Transform cardPositioner;
+    public Transform playPositioner;
     public float horizontalSpacing;
 
     public GameObject cardPrefab;
@@ -28,7 +29,7 @@ public class CardHolder : MonoBehaviour {
     }
 
     public void AddCard(Card card) {
-        GameObject newCard = Instantiate(cardPrefab, cardPositioner.position, Quaternion.identity, cardPositioner);
+        GameObject newCard = Instantiate(cardPrefab, cardPositioner.position, Quaternion.identity, transform);
         CardImplementation cardManager = newCard.GetComponent<CardImplementation>();
 
         cardManager.card = card;
@@ -40,6 +41,27 @@ public class CardHolder : MonoBehaviour {
         GameObject cardToDelete = cards[cardIndex];
         cards.Remove(cardToDelete);
         Destroy(cardToDelete);
+    }
+
+    public void HideCard(int cardIndex) {
+        cards[cardIndex].gameObject.SetActive(false);
+    }
+
+    public void UnhideCard(int cardIndex) {
+        cards[cardIndex].gameObject.SetActive(true);
+    }
+
+    public int GetCardIndex(GameObject card) {
+        for (int i = 0; i < cards.Count; i++) {
+            if (cards[i] == card) return i;
+        }
+        return -1;
+    }
+
+    public void ToggleInteractivity() {
+        for (int i = 0; i < cards.Count; i++) {
+            cards[i].GetComponent<CardMovement>().canInteract ^= true;
+        }
     }
 
     private void UpdateVisuals() {
