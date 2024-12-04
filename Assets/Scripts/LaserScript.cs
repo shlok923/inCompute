@@ -1,17 +1,18 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
 public class LaserScript : MonoBehaviour
 {
-    [SerializeField] private LineRenderer laserLineRenderer; // LineRenderer for the laser
-    [SerializeField] private float maxLaserDistance = 50f;   // Maximum distance the laser can travel
-    [SerializeField] private LayerMask reflectionLayerMask;  // Layers the laser can interact with
+    [SerializeField] private LineRenderer laserLineRenderer;
+    [SerializeField] private float maxLaserDistance = 50f;
+    [SerializeField] private LayerMask reflectionLayerMask;
+    [SerializeField] private Crystal[] crystals; // Reference all crystals in the scene.
 
-    private void Awake()
+    private HashSet<Crystal> crystalsHitThisFrame = new HashSet<Crystal>(); // Track crystals hit in this frame.
+
+    private void Start()
     {
-        // Ensure the LineRenderer is initialized
         if (laserLineRenderer == null)
         {
             laserLineRenderer = GetComponent<LineRenderer>();
@@ -21,49 +22,70 @@ public class LaserScript : MonoBehaviour
     private void Update()
     {
         ShootLaser();
+        HandleLaserExit();
     }
 
     private void ShootLaser()
     {
-        // Initialize laser positions
+        crystalsHitThisFrame.Clear(); // Clear the set at the start of each frame.
+
         List<Vector3> laserPoints = new List<Vector3>();
         Vector3 laserOrigin = transform.position;
         Vector3 laserDirection = transform.forward;
 
-        laserPoints.Add(laserOrigin); // Start point of the laser
+        laserPoints.Add(laserOrigin);
 
-        for (int i = 0; i < 10; i++) // Limit reflections to prevent infinite loops
+        for (int i = 0; i < 10; i++) // Limit reflections.
         {
             Ray ray = new Ray(laserOrigin, laserDirection);
             if (Physics.Raycast(ray, out RaycastHit hit, maxLaserDistance, reflectionLayerMask))
             {
-                laserPoints.Add(hit.point); // Add the hit point to the laser path
+                laserPoints.Add(hit.point);
 
-                // Check if the object hit is reflective
+                // Check if the hit object is a crystal.
+                foreach (Crystal crystal in crystals)
+                {
+                    if (hit.collider.gameObject == crystal.gameObject)
+                    {
+                        Material laserMaterial = laserLineRenderer.material;
+                        crystal.OnLaserHit(this, laserMaterial); // Pass the current laser instance to the crystal.
+                        crystalsHitThisFrame.Add(crystal); // Mark this crystal as hit.
+                        //Debug.Log("Laser " + gameObject.name + " hit Crystal: " + crystal.gameObject.name + " applying material " + laserMaterial.name);
+                        break; // Stop further checks for this crystal.
+                    }
+                }
+
+                // Handle reflection.
                 if (hit.collider.CompareTag("Mirror"))
                 {
-                    Debug.Log("Mirror hit");
-                    // Reflect the laser direction based on the hit normal
                     laserDirection = Vector3.Reflect(laserDirection, hit.normal);
                     laserOrigin = hit.point;
                 }
                 else
                 {
-                    // Laser hits a non-reflective object; stop further reflections
                     break;
                 }
             }
             else
             {
-                // If no hit, draw laser to the max distance
                 laserPoints.Add(laserOrigin + laserDirection * maxLaserDistance);
                 break;
             }
         }
 
-        // Update the LineRenderer to match the laser path
         laserLineRenderer.positionCount = laserPoints.Count;
         laserLineRenderer.SetPositions(laserPoints.ToArray());
     }
-}
 
+    private void HandleLaserExit()
+    {
+        // Reset crystals that were not hit by any laser this frame.
+        foreach (Crystal crystal in crystals)
+        {
+            if (!crystalsHitThisFrame.Contains(crystal))
+            {
+                crystal.OnLaserExit(this); // Pass the current laser instance to reset it.
+            }
+        }
+    }
+}

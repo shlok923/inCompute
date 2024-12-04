@@ -1,55 +1,55 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Crystal : MonoBehaviour
 {
-    [SerializeField] private MeshRenderer crystalRenderer; // Renderer of the crystal object
+    [SerializeField] private MeshRenderer crystalRenderer;
+    [SerializeField] private Material originalMaterial; // Reference to the original material.
+    private Material initialMaterial; // Keeps track of the current material.
+    private HashSet<LaserScript> lasersCurrentlyHitting = new HashSet<LaserScript>(); // Track lasers that are currently hitting the crystal.
+    [SerializeField] private Material requiredMaterial; // The material that should light the crystal
 
     private void Start()
     {
-        // Ensure the crystal has a renderer
         if (crystalRenderer == null)
         {
             crystalRenderer = GetComponent<MeshRenderer>();
         }
+
+        // Initialize material references.
+        initialMaterial = crystalRenderer.material;
+        if (originalMaterial == null)
+        {
+            originalMaterial = initialMaterial; // Default to the starting material.
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    // Called when a laser hits the crystal
+    public void OnLaserHit(LaserScript laser, Material laserMaterial)
     {
-        // Check if the object colliding is a laser
-        if (collision.collider.CompareTag("Laser"))
+        if (!lasersCurrentlyHitting.Contains(laser)) // Only change material if the laser is not already recorded.
         {
-            Debug.Log("Laser hit crystal");
-            // Get the laser's color
-            LineRenderer laser = collision.collider.GetComponent<LineRenderer>();
-            if (laser != null)
-            {
-                // Get the first color of the laser (assuming it's gradient)
-                Color laserColor = laser.startColor;
+            lasersCurrentlyHitting.Add(laser); // Add the laser to the hit set.
+            crystalRenderer.material = laserMaterial; // Change material to the laser's material.
+            //Debug.Log("Crystal hit: " + gameObject.name + " applying material: " + laserMaterial.name);
+        }
+    }
 
-                // Change the crystal's color to match the laser
-                SetCrystalColor(laserColor);
+    // Called when a laser stops hitting the crystal
+    public void OnLaserExit(LaserScript laser)
+    {
+        if (lasersCurrentlyHitting.Contains(laser)) // Only reset if the laser was previously hitting the crystal.
+        {
+            lasersCurrentlyHitting.Remove(laser); // Remove the laser from the hit set.
+            if (lasersCurrentlyHitting.Count == 0) // If no lasers are hitting, reset the material.
+            {
+                crystalRenderer.material = originalMaterial;
+                //Debug.Log("Crystal material reset to: " + originalMaterial.name);
             }
         }
     }
 
-    public void SetCrystalColor(Color color)
-    {
-        StartCoroutine(ChangeCrystalColor(color, 1f));
-    }
+    public Material CurrentMaterial => this.crystalRenderer.material;
 
-    private IEnumerator ChangeCrystalColor(Color targetColor, float duration)
-    {
-        Color initialColor = crystalRenderer.material.color;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            crystalRenderer.material.color = Color.Lerp(initialColor, targetColor, elapsedTime / duration);
-            yield return null;
-        }
-
-        crystalRenderer.material.color = targetColor;
-    }
+    public Material RequiredMaterial => requiredMaterial;
 }

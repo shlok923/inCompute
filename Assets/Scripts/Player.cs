@@ -115,7 +115,7 @@ public class Player : MonoBehaviour, IObjectParent
                     cardPickup.PeekCard();
                     cardPickup.beingPeeked = true;
                 }
-                Debug.Log("interactable object found");
+                // Debug.Log("interactable object found");
             }
             else
             {
