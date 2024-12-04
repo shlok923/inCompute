@@ -111,16 +111,28 @@ public class Player : MonoBehaviour, IObjectParent
             if (raycastHit.transform.TryGetComponent(out Interactable interactable))
             {
                 interactableObject = interactable;
+                if (interactableObject is CardPickup cardPickup) {
+                    cardPickup.PeekCard();
+                    cardPickup.beingPeeked = true;
+                }
                 Debug.Log("interactable object found");
             }
             else
             {
+                if (interactableObject is CardPickup cardPickup) {
+                    cardPickup.UnpeekCard();
+                    cardPickup.beingPeeked = false;
+                }
                 interactableObject = null;
                 //Debug.Log("no interactable object found");
             }
         }
         else
         {
+            if (interactableObject is CardPickup cardPickup) {
+                cardPickup.UnpeekCard();
+                cardPickup.beingPeeked = false;
+            }
             interactableObject = null;
             //Debug.Log("no interactable object found");
         }

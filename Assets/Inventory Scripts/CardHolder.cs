@@ -28,12 +28,17 @@ public class CardHolder : MonoBehaviour {
         UpdateVisuals();
     }
 
-    public void AddCard(Card card) {
-        GameObject newCard = Instantiate(cardPrefab, cardPositioner.position, Quaternion.identity, transform);
+    public GameObject GenerateCard(Card card, Vector3 position, Transform parent) {
+        GameObject newCard = Instantiate(cardPrefab, position, Quaternion.identity, parent);
         CardImplementation cardManager = newCard.GetComponent<CardImplementation>();
 
         cardManager.card = card;
         cardManager.UpdateStats();
+        return newCard;
+    }
+
+    public void AddCard(Card card) {
+        GameObject newCard = GenerateCard(card, cardPositioner.position, transform);
         cards.Add(newCard);
     }
 
