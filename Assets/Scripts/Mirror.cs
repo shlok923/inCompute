@@ -78,9 +78,9 @@ public class Mirror : Interactable
 
     public void ToggleRotationState()
     {
-        if (!isUp || isMoving || isRotating) return; // Ensure the mirror is up and not currently in motion
+        if (!isUp) return; // Ensure the mirror is up and not currently in motion
 
-        targetRotation = transform.rotation == stateOne ? stateTwo : stateOne;
+        targetRotation = targetRotation == stateOne ? stateTwo : stateOne;
         isRotating = true;
     }
 }

@@ -624,6 +624,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3360987983512700584, guid: bcb4b50cca06c3c4aa95a7ca25faa25a, type: 3}
+      propertyPath: m_Size.x
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3360987983512700584, guid: bcb4b50cca06c3c4aa95a7ca25faa25a, type: 3}
+      propertyPath: m_Size.y
+      value: 3.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3360987983512700584, guid: bcb4b50cca06c3c4aa95a7ca25faa25a, type: 3}
+      propertyPath: m_Size.z
+      value: 10.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4453025387352501044, guid: bcb4b50cca06c3c4aa95a7ca25faa25a, type: 3}
       propertyPath: m_Name
       value: Mirror

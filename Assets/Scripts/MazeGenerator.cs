@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MazeGenerator : MonoBehaviour
@@ -17,9 +18,14 @@ public class MazeGenerator : MonoBehaviour
     private bool[,] newMaze; // New maze grid to compare against
     private System.Random random = new System.Random(); // Random generator
     private Dictionary<Vector2Int, GameObject> mazeObjects = new Dictionary<Vector2Int, GameObject>(); // Tracks maze objects
+                                                    
+    private List<GameObject> mazeObjectsToRemove = new List<GameObject>();
+    private bool playerInMaze = false; // Tracks if the player is in the maze\
+    private bool isActive = false;
 
     private void Start()
     {
+        isActive = true;
         StartCoroutine(RegenerateMazeRoutine());
     }
 
@@ -105,22 +111,26 @@ public class MazeGenerator : MonoBehaviour
 
         Vector3 playerPosition = player.transform.position;
         Vector2Int playerCell = new Vector2Int(
-            Mathf.RoundToInt(playerPosition.x / cellSize),
-            Mathf.RoundToInt(playerPosition.z / cellSize)
+            Mathf.RoundToInt(playerPosition.x / 2f) * 2,
+            Mathf.RoundToInt(playerPosition.z / 2f) * 2
         );
 
-        player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(playerCell.x * cellSize, 0, playerCell.y * cellSize), 1f);
-        player.SetPaused(true);
+        if (playerInMaze)
+        {
+            // Snap player's position to the center of their cell
+            player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(playerCell.x * cellSize, 0, playerCell.y * cellSize), 1f);
+            player.SetPaused(true);
+        }
 
         for (int x = 0; x < mazeWidth * 2 + 1; x++)
         {
             for (int y = 0; y < mazeHeight * 2 + 1; y++)
             {
-                Vector3 position = new Vector3(x * cellSize, -1, y * cellSize);
-                Vector2Int cell = new Vector2Int(x, y);
+                Vector3 position = transform.TransformPoint(new Vector3(x * cellSize, -1, y * cellSize));
+                Vector2Int cell = new Vector2Int(x, y) * 2 + new Vector2Int((int)transform.position.x, (int)transform.position.z);
 
-                // Skip spawning anything at the player's current cell
-                if (cell == playerCell)
+                // Skip spawning anything at the player's current cell and start and end points
+                if (cell == playerCell || (x == 1 && y == 0) || (x == mazeWidth * 2 - 1 && y == mazeHeight * 2))
                 {
                     continue;
                 }
@@ -129,6 +139,8 @@ public class MazeGenerator : MonoBehaviour
                 if (!currentMaze[x, y])
                 {
                     GameObject wallBlock = Instantiate(wallPrefab, position, Quaternion.identity);
+                    mazeObjectsToRemove.Add(wallBlock);
+
                     mazeObjects[cell] = wallBlock;
                     StartCoroutine(RiseBlock(wallBlock, animationDuration));
                 }
@@ -144,13 +156,17 @@ public class MazeGenerator : MonoBehaviour
         // Determine the player's current cell based on position
         Vector3 playerPosition = player.transform.position;
         Vector2Int playerCell = new Vector2Int(
-            Mathf.RoundToInt(playerPosition.x / cellSize),
-            Mathf.RoundToInt(playerPosition.z / cellSize)
+            Mathf.RoundToInt(playerPosition.x / 2f) * 2,
+            Mathf.RoundToInt(playerPosition.z / 2f) * 2
         );
 
-        // Snap player's position to the center of their cell
-        player.transform.position = new Vector3(playerCell.x * cellSize, 0, playerCell.y * cellSize);
-        player.SetPaused(true);
+        if (playerInMaze)
+        {
+            // Snap player's position to the center of their cell
+            player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(playerCell.x * cellSize, 0, playerCell.y * cellSize), 1f);
+            player.SetPaused(true);
+
+        }
 
         HashSet<Vector2Int> processedCells = new HashSet<Vector2Int>();
 
@@ -158,7 +174,10 @@ public class MazeGenerator : MonoBehaviour
         {
             for (int y = 0; y < mazeHeight * 2 + 1; y++)
             {
-                Vector2Int cell = new Vector2Int(x, y);
+                // 2 for cell size, hard coded plsssssssssssssssssssssssssssssssssssssss check here if errrorroorroororororororororororororo 
+                // 2 for cell size, hard coded plsssssssssssssssssssssssssssssssssssssss check here if errrorroorroororororororororororororo
+                // 2 for cell size, hard coded plsssssssssssssssssssssssssssssssssssssss check here if errrorroorroororororororororororororo
+                Vector2Int cell = new Vector2Int(x, y) * 2 + new Vector2Int((int)transform.position.x, (int)transform.position.z); 
 
                 // Skip processing the player's current cell
                 if (cell == playerCell)
@@ -186,8 +205,9 @@ public class MazeGenerator : MonoBehaviour
 
                 if (!newState) // Only instantiate walls for blocked cells
                 {
-                    Vector3 position = new Vector3(x * cellSize, -1, y * cellSize);
+                    Vector3 position = transform.TransformPoint(new Vector3(x * cellSize, -1, y * cellSize));
                     GameObject newBlock = Instantiate(wallPrefab, position, Quaternion.identity);
+                    mazeObjectsToRemove.Add(newBlock);
                     mazeObjects[cell] = newBlock;
                     StartCoroutine(RiseBlock(newBlock, animationDuration));
                 }
@@ -240,4 +260,59 @@ public class MazeGenerator : MonoBehaviour
 
         Destroy(block);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        Player player = other.GetComponentInParent<Player>();
+
+        if (player != null && !playerInMaze)
+        {
+            Debug.Log("Player entered maze.");
+            playerInMaze = true;
+        }
+        else if (player != null && playerInMaze)
+        {
+            Debug.LogWarning("Player entered maze without exiting first.");
+        }
+        else
+        {
+            Debug.Log("Non-player object entered the maze.");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        
+        if (playerInMaze && other.GetComponentInParent<Player>())
+        {
+            Debug.Log("Player exited maze.");
+            playerInMaze = false;
+        }
+        else
+        {
+            Debug.LogWarning("Player exited maze without entering first.");
+        }
+    }
+
+    public void DespawnLevel()
+    {
+        StopAllCoroutines();
+        foreach (GameObject mazeKey in mazeObjectsToRemove)
+        {
+            if (mazeKey != null)
+            {
+                Destroy(mazeKey);
+            }
+        }
+        mazeObjects.Clear();
+        isActive = false;
+    }
+
+    public void RespawnLevel()
+    {
+        if (isActive) return;
+        StartCoroutine(RegenerateMazeRoutine());
+    }
+
 }

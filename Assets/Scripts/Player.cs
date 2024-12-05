@@ -56,7 +56,7 @@ public class Player : MonoBehaviour, IObjectParent
     private void Start()
     {
         gameInput.OnInteractAction += GameInput_OnInteractAction;
-        //gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
+        gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
         gameInput.OnMirrorRotationAction += GameInput_OnMirrorRotationAction;
     }
 
@@ -68,13 +68,13 @@ public class Player : MonoBehaviour, IObjectParent
         }
     }
 
-    //private void GameInput_OnInteractAlternateAction(object sender, EventArgs e)
-    //{
-    //    if (interactableObject != null)
-    //    {
-    //        interactableObject.InteractAlternate();
-    //    }
-    //}
+    private void GameInput_OnInteractAlternateAction(object sender, EventArgs e)
+    {
+        if (interactableObject != null)
+        {
+            interactableObject.InteractAlternate(this);
+        }
+    }
 
     private void GameInput_OnInteractAction(object sender, System.EventArgs e)
     {
@@ -106,7 +106,7 @@ public class Player : MonoBehaviour, IObjectParent
         }
 
         float interactDistance = 2f;
-        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance))
+        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance * 2))
         {
             if (raycastHit.transform.TryGetComponent(out Interactable interactable))
             {
