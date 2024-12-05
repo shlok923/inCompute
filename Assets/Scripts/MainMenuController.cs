@@ -8,6 +8,13 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] GameObject settingTitle;
     [SerializeField] GameObject audioMixers;
 
+    public void Start(){
+        settingTitle.SetActive(false);
+        audioMixers.SetActive(false);
+        title.SetActive(true);
+        buttons.SetActive(true);
+    }
+
     public void StartGame(){
         SceneManager.LoadScene("GameScene");
     }
@@ -29,6 +36,7 @@ public class MainMenuController : MonoBehaviour
         settingTitle.SetActive(true);
         audioMixers.SetActive(true);
     }
+
 
     public void OpenMenu(){
         settingTitle.SetActive(false);

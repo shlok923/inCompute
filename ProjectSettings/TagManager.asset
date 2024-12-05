@@ -9,6 +9,7 @@ TagManager:
   - Crystal
   - Card Info
   - Wire
+  - AudioManager
   layers:
   - Default
   - TransparentFX
