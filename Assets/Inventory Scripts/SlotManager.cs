@@ -67,6 +67,5 @@ public class SlotManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
 
         inventoryManager.heldInventory.SetHeld(this);
-        RemoveFromSlot();
     }
 }

@@ -21,8 +21,11 @@ public class PickupObjects : Interactable
 
     private void PickUp()
     {
-        inventoryManager.PickupArtefact(artefact);
-        Destroy(gameObject);
+        if (inventoryManager.PickupArtefact(artefact))
+        {
+            Destroy(gameObject);
+
+        };
     }
 
 }

@@ -92,6 +92,8 @@ public class InventoryManager : MonoBehaviour {
         int slotIndex = GetIndex(slot);
 
         artefacts[slotIndex] = null;
+
+        slot.RemoveFromSlot();
         occupied[slotIndex] = false;
     }
     
@@ -102,14 +104,15 @@ public class InventoryManager : MonoBehaviour {
         return -1;
     }
 
-    public void PickupArtefact(GameObject pickupElement) {
+    public bool PickupArtefact(GameObject pickupElement) {
         for (int i = 0; i < slots.Count; i++) {
             Debug.Log(occupied[i]);
             if (!occupied[i]) {
                 RegisterAddition(pickupElement, i);
-                return;
+                return true;
             }
         }
         Debug.Log("Inventory Space exceeded!");
+        return false;
     }
 }

@@ -6,6 +6,7 @@ public class GPULevelManager : MonoBehaviour
 {
 
     [SerializeField] private Crystal[] crystals; // Array of crystal requirements
+    [SerializeField] private PickupObjects GPULevelFile;
 
     private bool levelComplete = false; // Tracks if the level is complete
 
@@ -36,6 +37,7 @@ public class GPULevelManager : MonoBehaviour
 
         // If all crystals meet their requirements
         levelComplete = true;
+        GPULevelFile.gameObject.SetActive(true);
         Debug.Log("Level complete! All crystals have the correct colors.");
     }
 }
