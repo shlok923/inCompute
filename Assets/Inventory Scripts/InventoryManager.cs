@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour {
+
+    [SerializeField] int numSlots = 18;
+
     public List<SlotManager> slots;
     public Artefact[] artefacts;
     private List<bool> occupied;
@@ -37,7 +40,9 @@ public class InventoryManager : MonoBehaviour {
     private void InstantiateSlots() {
         slots = new List<SlotManager>();
         occupied = new List<bool>();
-        for (int i = 0; i < transform.childCount; i++) {
+        Debug.Log("helo");
+        for (int i = 0; i < numSlots; i++) {
+            Debug.Log(transform.GetChild(i).name);
             slots.Add(transform.GetChild(i).GetComponent<SlotManager>());
             occupied.Add(false);
         }
@@ -83,6 +88,7 @@ public class InventoryManager : MonoBehaviour {
 
     public void PickupArtefact(GameObject pickupElement) {
         for (int i = 0; i < slots.Count; i++) {
+            Debug.Log(occupied[i]);
             if (!occupied[i]) {
                 RegisterAddition(pickupElement, i);
                 return;

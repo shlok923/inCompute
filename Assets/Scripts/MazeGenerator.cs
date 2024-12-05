@@ -21,7 +21,7 @@ public class MazeGenerator : MonoBehaviour
                                                     
     private List<GameObject> mazeObjectsToRemove = new List<GameObject>();
     private bool playerInMaze = false; // Tracks if the player is in the maze\
-    private bool isActive = false;
+    private bool isActive = true;
 
     private void Start()
     {
@@ -106,6 +106,7 @@ public class MazeGenerator : MonoBehaviour
 
     private IEnumerator InstantiateMazeWithAnimation()
     {
+        Debug.Log("Instantiating maze with animation.");
         currentMaze = newMaze;
         mazeObjects.Clear();
 
@@ -153,6 +154,7 @@ public class MazeGenerator : MonoBehaviour
 
     private IEnumerator TransitionMaze()
     {
+        Debug.Log("Transitioning maze.");
         // Determine the player's current cell based on position
         Vector3 playerPosition = player.transform.position;
         Vector2Int playerCell = new Vector2Int(
@@ -311,8 +313,20 @@ public class MazeGenerator : MonoBehaviour
 
     public void RespawnLevel()
     {
-        if (isActive) return;
+        if (isActive)
+        {
+            Debug.LogWarning("Maze is already active.");
+            return;
+        }
+        Debug.Log("Respawning maze.");
         StartCoroutine(RegenerateMazeRoutine());
+        isActive = true;
+    }
+
+    public void StopMaze()
+    {
+        if (!isActive) return;
+        StopAllCoroutines();
     }
 
 }
