@@ -9,10 +9,17 @@ public class SlotManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public Artefact artefact;
     public GameObject highlight;
     public Image sprite;
+
+    public Vector3 descriptionOffset;
+    public GameObject descriptionBox;
     private GameObject instantiatedDescription;
 
-    public Vector3 descriptionBoxOffset;
-    public GameObject descriptionBox;
+    public GameObject artefactPrefab;
+    private GameObject artefactInfo;
+
+    private void Awake() {
+        artefactInfo = GetComponentInParent<InventoryManager>().artefactInfo;
+    }
 
     public void AddToSlot(ArtefactManager artefactManager) {
         artefact = artefactManager.artefact;
@@ -34,8 +41,8 @@ public class SlotManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (artefact == null) return;
         highlight.SetActive(true);
         
-        instantiatedDescription = Instantiate(descriptionBox, descriptionBoxOffset, Quaternion.identity, transform);
-        instantiatedDescription.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>().text = artefact.artefactName;
+        instantiatedDescription = Instantiate(descriptionBox, transform.position + descriptionOffset, Quaternion.identity, transform);
+        instantiatedDescription.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = artefact.artefactName;
     }
 
     public void OnPointerExit(PointerEventData eventData) {
@@ -52,7 +59,13 @@ public class SlotManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             Destroy(instantiatedDescription.gameObject);
         }
 
-        GetComponentInParent<InventoryManager>().CanOpen(false);
+        //GetComponentInParent<InventoryManager>().CanOpen(false);
+        //GetComponentInParent<InventoryManager>().ToggleInventory();
+
+        //artefactInfo.SetActive(true);
+        //GameObject instantiatedArtefact = Instantiate(artefactPrefab, artefactInfo.transform);
+        //instantiatedArtefact.GetComponent<ArtefactManager>().artefact = artefact;
+        //instantiatedArtefact.GetComponent<ArtefactManager>().UpdateStats();
 
     }
 }

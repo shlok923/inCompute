@@ -21,6 +21,11 @@ public class ArtefactManager : MonoBehaviour {
     }
 
     private void Awake() {
+        UpdateStats();
+    }
+
+    public void UpdateStats() {
+        if (artefact == null) return;
         model.GetComponent<MeshFilter>().mesh = artefact.model;
     }
 

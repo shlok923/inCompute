@@ -243,5 +243,7 @@ MonoBehaviour:
   artefact: {fileID: 0}
   highlight: {fileID: 3987000082782197250}
   sprite: {fileID: 1338554877464918615}
-  descriptionBoxOffset: {x: 10, y: 35, z: 0}
+  descriptionOffset: {x: 20, y: 70, z: 0}
   descriptionBox: {fileID: 6382971970662060189, guid: e8181d5c23373304ebc6f4e3cd89c5b9, type: 3}
+  artefactPrefab: {fileID: 6485493490506789962, guid: e9fef932ba04bf142ae342fa4ce758c6, type: 3}
+  artefactInfo: {fileID: 0}

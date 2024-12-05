@@ -17,12 +17,21 @@ public class InventoryManager : MonoBehaviour {
     private CardHolder cardHolder;
     public bool isInventoryOpen = false;
 
+    public GameObject artefactInfo;
+    public List<ArtefactManager> testArtefacts;
+
     private void Awake() {
         player = FindFirstObjectByType<Player>();
         cardHolder = FindFirstObjectByType<CardHolder>();
         inventoryOffSprite = inventoryToggle.sprite;
 
         InstantiateSlots();
+    }
+
+    private void Start() {
+        for (int i = 0; i < testArtefacts.Count; i++) {
+            slots[i].AddToSlot(testArtefacts[i]);
+        }
     }
 
     private void InstantiateSlots() {
