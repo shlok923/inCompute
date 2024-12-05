@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CardInfoManager : MonoBehaviour {
     private CardHolder holder;
+    private Player player;
+    public InventoryManager inventory;
 
     public GameObject infoCard;
     private int infoIndex;
@@ -13,6 +15,7 @@ public class CardInfoManager : MonoBehaviour {
 
     private void Awake() {
         holder = GetComponent<CardHolder>();
+        player = FindFirstObjectByType<Player>();
         positionPlaceholder = holder.playPositioner;
     }
 
@@ -23,6 +26,8 @@ public class CardInfoManager : MonoBehaviour {
         infoIndex = holder.GetCardIndex(card);
 
         holder.ToggleInteractivity();
+        player.SetPaused(true);
+        inventory.CanOpen(false);
         Instantiate(card, positionPlaceholder);
         infoOverlay.SetActive(true);
         holder.HideCard(infoIndex);
@@ -35,6 +40,8 @@ public class CardInfoManager : MonoBehaviour {
         
         infoOverlay.SetActive(false);
         Destroy(positionPlaceholder.GetChild(0).gameObject);
+        inventory.CanOpen(true);
+        player.SetPaused(false);
         holder.ToggleInteractivity();
 
         infoCard = null;

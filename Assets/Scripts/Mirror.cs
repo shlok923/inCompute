@@ -47,7 +47,7 @@ public class Mirror : Interactable
             }
         }
 
-        // Smoothly rotate the mirror between states
+        // Smoothly rotate the mirror between CardStates
         if (isRotating)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, moveSpeed * Time.deltaTime);

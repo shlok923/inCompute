@@ -7,10 +7,12 @@ public class CardPickup : Interactable {
     public Card cardStored;
     public Transform peekPlaceholder;
 
+    public bool canInteract = true;
     public bool beingPeeked = false;
 
     public override void Interact(Player player) {
         if (cardStored == null) return;
+        if (!canInteract) return;
 
         holder.AddCard(cardStored);
 

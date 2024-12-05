@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CardPlayManager : MonoBehaviour {
     private CardHolder holder;
+    private Player player;
+    private InventoryManager inventory;
 
     private GameObject playCard;
     private int playIndex;
@@ -14,6 +16,9 @@ public class CardPlayManager : MonoBehaviour {
 
     private void Awake() {
         holder = GetComponent<CardHolder>();
+        player = FindFirstObjectByType<Player>();
+        inventory = GetComponent<CardInfoManager>().inventory;
+
         infoOverlay = GetComponent<CardInfoManager>().infoOverlay;
         positionPlaceholder = holder.playPositioner;
     }
@@ -34,6 +39,8 @@ public class CardPlayManager : MonoBehaviour {
         yield return new WaitForSeconds(2);
 
         Destroy(positionPlaceholder.GetChild(0).gameObject);
+        player.SetPaused(false);
+        inventory.CanOpen(true);
         holder.ToggleInteractivity();
 
         playCard = null;
