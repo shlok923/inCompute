@@ -37,7 +37,6 @@ public class MainMenuController : MonoBehaviour
         audioMixers.SetActive(true);
     }
 
-
     public void OpenMenu(){
         settingTitle.SetActive(false);
         audioMixers.SetActive(false);
