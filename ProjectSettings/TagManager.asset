@@ -8,6 +8,7 @@ TagManager:
   - Laser
   - Crystal
   - Card Info
+  - Wire
   layers:
   - Default
   - TransparentFX
@@ -19,8 +20,6 @@ TagManager:
   - 
   - 
   - Card Play
-  - 
-  - 
   - 
   - 
   - 

@@ -111,11 +111,11 @@ public class Player : MonoBehaviour, IObjectParent
             if (raycastHit.transform.TryGetComponent(out Interactable interactable))
             {
                 interactableObject = interactable;
+                Debug.Log("interactable object found");
                 if (interactableObject is CardPickup cardPickup) {
                     cardPickup.PeekCard();
                     cardPickup.beingPeeked = true;
                 }
-                // Debug.Log("interactable object found");
             }
             else
             {
