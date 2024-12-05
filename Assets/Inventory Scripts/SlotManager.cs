@@ -14,27 +14,34 @@ public class SlotManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public GameObject descriptionBox;
     private GameObject instantiatedDescription;
 
-    public GameObject artefactPrefab;
     private GameObject artefactInfo;
+    private InventoryManager inventoryManager;
 
     private void Awake() {
-        artefactInfo = GetComponentInParent<InventoryManager>().artefactInfo;
+        inventoryManager = GetComponentInParent<InventoryManager>();
+        if (inventoryManager != null) artefactInfo = inventoryManager.artefactInfo;
     }
 
     public void AddToSlot(ArtefactManager artefactManager) {
         artefact = artefactManager.artefact;
+        if (artefact == null) return;
+
+        sprite.gameObject.SetActive(true);
         sprite.sprite = artefact.sprite;
+
+        if (inventoryManager == null) highlight.SetActive(true);
     }
 
     public void RemoveFromSlot() {
+        highlight.SetActive(false);
         if (artefact == null) return;
         if (instantiatedDescription != null) { 
-            highlight.SetActive(false);
             Destroy(instantiatedDescription.gameObject);
         }
 
-        artefact = null;
         sprite.sprite = null;
+        sprite.gameObject.SetActive(false);
+        artefact = null;
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
@@ -47,25 +54,19 @@ public class SlotManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerExit(PointerEventData eventData) {
         if (artefact == null) return;
-        highlight.SetActive(false);
+        if (inventoryManager != null) highlight.SetActive(false);
 
         Destroy(instantiatedDescription);
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        if (artefact == null) return;
+        if (inventoryManager == null) return;
         if (instantiatedDescription != null) {
             highlight.SetActive(false);
             Destroy(instantiatedDescription.gameObject);
         }
 
-        //GetComponentInParent<InventoryManager>().CanOpen(false);
-        //GetComponentInParent<InventoryManager>().ToggleInventory();
-
-        //artefactInfo.SetActive(true);
-        //GameObject instantiatedArtefact = Instantiate(artefactPrefab, artefactInfo.transform);
-        //instantiatedArtefact.GetComponent<ArtefactManager>().artefact = artefact;
-        //instantiatedArtefact.GetComponent<ArtefactManager>().UpdateStats();
-
+        inventoryManager.heldInventory.SetHeld(this);
+        RemoveFromSlot();
     }
 }

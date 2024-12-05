@@ -21,6 +21,7 @@ public class InventoryManager : MonoBehaviour {
     public bool isInventoryOpen = false;
 
     public GameObject artefactInfo;
+    public HeldInventoy heldInventory;
     public List<ArtefactManager> testArtefacts;
 
     private void Awake() {
@@ -34,6 +35,7 @@ public class InventoryManager : MonoBehaviour {
     private void Start() {
         for (int i = 0; i < testArtefacts.Count; i++) {
             slots[i].AddToSlot(testArtefacts[i]);
+            occupied[i] = true;
         }
     }
 
@@ -84,6 +86,20 @@ public class InventoryManager : MonoBehaviour {
 
         Destroy(element);
         occupied[slotIndex] = true;
+    }
+
+    public void RemoveArtefact(SlotManager slot) {
+        int slotIndex = GetIndex(slot);
+
+        artefacts[slotIndex] = null;
+        occupied[slotIndex] = false;
+    }
+    
+    private int GetIndex(SlotManager slot) {
+        for (int i = 0; i < slots.Count; i++) {
+            if (slots[i] == slot) return i;
+        }
+        return -1;
     }
 
     public void PickupArtefact(GameObject pickupElement) {
