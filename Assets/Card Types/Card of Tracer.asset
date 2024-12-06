@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e168b5309f48f404c8abcb56d1abeb90, type: 3}
   m_Name: Card of Tracer
   m_EditorClassIdentifier: 
-  title: Tracer
-  ID: 3
+  title: Card of Tracer
   behaviour: {fileID: 0}
-  sprite: {fileID: 21300000, guid: f57bc442a31dc1e4680468be56384b7b, type: 3}
-  description: "Maps the maze\u2019s twists and turns."
+  sprite: {fileID: 21300000, guid: 20850063a66464143b1de4dea9c64aaf, type: 3}
+  infoCard: {fileID: 21300000, guid: f57bc442a31dc1e4680468be56384b7b, type: 3}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -27,6 +28,11 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public GameObject highlight;
     public Transform hoverPlaceholder;
+
+    public Vector3 descriptionOffset;
+    public Vector3 descriptionScale;
+    public GameObject descriptionBox;
+    private GameObject instantiatedDescriptionBox;
 
     private void Awake() {
         originalPosition = bounds.localPosition;
@@ -56,24 +62,43 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public void IdleState() {
         highlight.SetActive(false);
+        GetComponent<CardImplementation>().background.SetActive(true);
 
         bounds.localPosition = originalPosition;
         bounds.localScale = originalScale;
+       
+        if (instantiatedDescriptionBox != null) {
+            Destroy(instantiatedDescriptionBox);
+            instantiatedDescriptionBox = null;
+        }
 
         UI.sortingOrder = 1;
     }
 
     private void HoverState() {
         highlight.SetActive(true);
+        GetComponent<CardImplementation>().background.SetActive(false);
 
         bounds.localPosition = hoverPlaceholder.localPosition;
         bounds.localScale = hoverPlaceholder.localScale.magnitude / Mathf.Sqrt(3) * originalScale;
+
+        instantiatedDescriptionBox = Instantiate(descriptionBox, transform.position + descriptionOffset, Quaternion.identity, UI.transform);
+        instantiatedDescriptionBox.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = GetComponent<CardImplementation>().card.title;
+        instantiatedDescriptionBox.transform.localScale = descriptionScale;
 
         UI.sortingOrder = 2;
     }
 
     private void InfoState() {
         highlight.SetActive(false);
+        GetComponent<CardImplementation>().background.SetActive(false);
+
+        if (instantiatedDescriptionBox != null) {
+            Destroy(instantiatedDescriptionBox);
+            instantiatedDescriptionBox = null;
+        }
+
+        holder.canTransition = false;
         infoManager.ShowInfo(gameObject);
     }
 

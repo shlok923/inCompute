@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e168b5309f48f404c8abcb56d1abeb90, type: 3}
   m_Name: Card of Freeze
   m_EditorClassIdentifier: 
-  title: Freeze
-  ID: 2
-  behaviour: {fileID: 0}
-  sprite: {fileID: 21300000, guid: 78d94c14ed436904f8cd63191ec860a1, type: 3}
-  description: "Halts the maze\u2019s motion with an icy grip."
+  title: Card of Freeze
+  behaviour: {fileID: 11400000, guid: 95d4c9ce35aa21d4ebcb56bf83b57ac1, type: 2}
+  sprite: {fileID: 21300000, guid: 3d0033282df6a7447b205aa566a3f45a, type: 3}
+  infoCard: {fileID: 21300000, guid: 78d94c14ed436904f8cd63191ec860a1, type: 3}

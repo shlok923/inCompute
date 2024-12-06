@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e168b5309f48f404c8abcb56d1abeb90, type: 3}
   m_Name: Card of Locks
   m_EditorClassIdentifier: 
-  title: Locks
-  ID: 4
+  title: Card of Locks
   behaviour: {fileID: 0}
-  sprite: {fileID: 21300000, guid: 86b8173bf1e29e242b18ce082dc9383a, type: 3}
-  description: Cracks two dials in perfect sequence.
+  sprite: {fileID: 21300000, guid: b23e13421103c9b45bdf40a0ed02173d, type: 3}
+  infoCard: {fileID: 21300000, guid: 86b8173bf1e29e242b18ce082dc9383a, type: 3}

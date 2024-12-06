@@ -23,6 +23,9 @@ public class MazeGenerator : MonoBehaviour
     private bool playerInMaze = false; // Tracks if the player is in the maze\
     private bool isActive = true;
 
+    public bool canTransition = true;
+    private bool isTransitioning;
+
     private void Start()
     {
         isActive = true;
@@ -33,7 +36,7 @@ public class MazeGenerator : MonoBehaviour
     {
         GenerateMaze(); // Generate the initial maze
         yield return StartCoroutine(InstantiateMazeWithAnimation());
-        while (true)
+        while (canTransition)
         {
             yield return new WaitForSeconds(mazeRegenerationInterval - animationDuration);
             GenerateMaze(); // Generate a new maze

@@ -28,7 +28,11 @@ public class CardInfoManager : MonoBehaviour {
         holder.ToggleInteractivity();
         player.SetPaused(true);
         inventory.CanOpen(false);
-        Instantiate(card, positionPlaceholder);
+
+        GameObject instantiatedInfoCard = Instantiate(card, positionPlaceholder);
+        instantiatedInfoCard.transform.localPosition = Vector3.zero;
+        instantiatedInfoCard.GetComponent<CardImplementation>().graphic.sprite = card.GetComponent<CardImplementation>().card.infoCard;
+
         infoOverlay.SetActive(true);
         holder.HideCard(infoIndex);
     }
@@ -43,6 +47,7 @@ public class CardInfoManager : MonoBehaviour {
         inventory.CanOpen(true);
         player.SetPaused(false);
         holder.ToggleInteractivity();
+        holder.canTransition = true;
 
         infoCard = null;
         infoIndex = -1;

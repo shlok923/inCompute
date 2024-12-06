@@ -1205,6 +1205,7 @@ RectTransform:
   m_Children:
   - {fileID: 806686269}
   - {fileID: 1143303507}
+  - {fileID: 2043044134}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2314,7 +2315,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 300, y: 80}
-  m_SizeDelta: {x: 500, y: 200}
+  m_SizeDelta: {x: 10, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &806686272
 MonoBehaviour:
@@ -2338,6 +2339,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e0e0cafb9b043ca40870facf186b687f, type: 2}
   - {fileID: 11400000, guid: 6e21a9ec8ff95c2488e654a6a86883ee, type: 2}
   - {fileID: 11400000, guid: 61bb13049f57ff548957d1e3ebecb2ce, type: 2}
+  - {fileID: 11400000, guid: ff926d262996792449a8ccbe55a12dc0, type: 2}
+  transitionDuration: 1
+  canTransition: 1
+  isTransitioning: 0
+  requiredWidthF: 20
+  requiredPositionF: 664
+  requiredSpacingF: 3.5
 --- !u!114 &806686273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2758,7 +2766,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 300, y: 310}
+  m_AnchoredPosition: {x: 350, y: 310}
   m_SizeDelta: {x: 150, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1143303508
@@ -4133,11 +4141,11 @@ Transform:
   m_GameObject: {fileID: 2043044133}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.75, z: 0}
-  m_LocalScale: {x: 1.75, y: 1.75, z: 1.75}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 150, y: 150, z: 150}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 393042469}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2070812149
 PrefabInstance:
@@ -4550,7 +4558,6 @@ SceneRoots:
   - {fileID: 407470036}
   - {fileID: 1625313817}
   - {fileID: 393042469}
-  - {fileID: 2043044134}
   - {fileID: 1583518796}
   - {fileID: 526074371}
   - {fileID: 1706302788}

@@ -11,11 +11,13 @@ public class Mirror : Interactable
 
     private Vector3 initialPosition;
     private Vector3 targetPosition;
-    private bool isUp = true;
+    private bool isUp = false;
     private bool isMoving = false;
 
     private Quaternion targetRotation;
     private bool isRotating = false;
+
+    public bool canInteract = true;
 
     private void Start()
     {
@@ -34,6 +36,7 @@ public class Mirror : Interactable
 
     private void Update()
     {
+        Debug.Log(isMoving);
         // Smoothly move the mirror up and down
         if (isMoving)
         {
@@ -64,10 +67,11 @@ public class Mirror : Interactable
     public override void Interact(Player player)
     {
         // Toggle the mirror's up/down state
+        if (!canInteract) return;
         ToggleUpDown();
     }
 
-    private void ToggleUpDown()
+    public void ToggleUpDown()
     {
         if (isMoving || isRotating) return; // Prevent toggling while moving or rotating
 
