@@ -9,6 +9,7 @@ public class LevelChangeLever : Interactable
     [SerializeField] private GameObject KeyboardLevel;
     [SerializeField] private GameObject PowerSupplyLevel;
     [SerializeField] private GameObject GPULevel;
+    [SerializeField] private MazeGenerator mazeGenerator;
 
     [SerializeField] private Player player;
 
@@ -29,13 +30,13 @@ public class LevelChangeLever : Interactable
         {
             MainBoard.SetActive(false);
             KeyboardLevel.SetActive(true);
-            KeyboardLevel.TryGetComponent<MazeGenerator>(out MazeGenerator keyboardLevel);
-            keyboardLevel.RespawnLevel();
+            mazeGenerator.gameObject.SetActive(true);
+            mazeGenerator.RespawnLevel();
         }
         else if (KeyboardLevel.activeSelf)
         {
-            KeyboardLevel.TryGetComponent<MazeGenerator>(out MazeGenerator keyboardLevel);
-            keyboardLevel.DespawnLevel();
+            mazeGenerator.DespawnLevel();
+            mazeGenerator.gameObject.SetActive(false);
             KeyboardLevel.SetActive(false);
             PowerSupplyLevel.SetActive(true);
         }
@@ -68,13 +69,13 @@ public class LevelChangeLever : Interactable
         {
             PowerSupplyLevel.SetActive(false);
             KeyboardLevel.SetActive(true);
-            KeyboardLevel.TryGetComponent<MazeGenerator>(out MazeGenerator keyboardLevel);
-            keyboardLevel.RespawnLevel();
+            mazeGenerator.gameObject.SetActive(true);
+            mazeGenerator.RespawnLevel();
         }
         else if (KeyboardLevel.activeSelf)
         {
-            KeyboardLevel.TryGetComponent<MazeGenerator>(out MazeGenerator keyboardLevel);
-            keyboardLevel.DespawnLevel();
+            mazeGenerator.DespawnLevel();
+            mazeGenerator.gameObject.SetActive(false);
             KeyboardLevel.SetActive(false);
             MainBoard.SetActive(true);
         }

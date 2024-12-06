@@ -98,15 +98,19 @@ public class Player : MonoBehaviour, IObjectParent
     {
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
 
-        Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
+        Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y) + mainCamera.transform.forward * inputVector.y;
 
         if (moveDir != Vector3.zero)
         {
             lastInteractDir = moveDir;
         }
 
+        Vector3 rayOffset = new Vector3(0, 0.25f, 0);
+
+
         float interactDistance = 2f;
-        if (Physics.Raycast(transform.position, lastInteractDir, out RaycastHit raycastHit, interactDistance * 2))
+        Debug.DrawRay(transform.position, transform.forward * 2, Color.red, 0.1f);
+        if (Physics.Raycast(transform.position + rayOffset, transform.forward * 2 + rayOffset, out RaycastHit raycastHit, interactDistance))
         {
             if (raycastHit.transform.TryGetComponent(out Interactable interactable))
             {

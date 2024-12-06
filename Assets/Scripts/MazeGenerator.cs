@@ -122,7 +122,7 @@ public class MazeGenerator : MonoBehaviour
         if (playerInMaze)
         {
             // Snap player's position to the center of their cell
-            player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(playerCell.x * cellSize, 0, playerCell.y * cellSize), 1f);
+            player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(playerCell.x * cellSize, player.transform.position.y, playerCell.y * cellSize), 1f);
             player.SetPaused(true);
         }
 
@@ -168,7 +168,7 @@ public class MazeGenerator : MonoBehaviour
         if (playerInMaze)
         {
             // Snap player's position to the center of their cell
-            player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(playerCell.x * cellSize, 0, playerCell.y * cellSize), 1f);
+            player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(playerCell.x * cellSize, player.transform.position.y, playerCell.y * cellSize), 1f);
             player.SetPaused(true);
 
         }
