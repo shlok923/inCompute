@@ -25,12 +25,14 @@ public class PlaceObjects : Interactable
         }
 
         Debug.Log("Placing object");
-        SlotManager slot = heldInventoy.HeldSlot;
+        SlotManager slot = heldInventoy.slot;
+        Debug.Log(slot.artefact);
 
         if (slot.artefact == artefactForSlot)
         {
             Debug.Log("Object found");
             slot.RemoveFromSlot();
+            heldInventoy.instantiatedArtefact = null;
             artefactObject.SetActive(true);
             objectPlaced = true;
             return;

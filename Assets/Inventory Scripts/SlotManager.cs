@@ -19,12 +19,16 @@ public class SlotManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void Awake() {
         inventoryManager = GetComponentInParent<InventoryManager>();
-        if (inventoryManager != null) artefactInfo = inventoryManager.artefactInfo;
+        //if (inventoryManager != null) artefactInfo = inventoryManager.artefactInfo;
     }
 
     public void AddToSlot(ArtefactManager artefactManager) {
         artefact = artefactManager.artefact;
-        if (artefact == null) return;
+        if (artefact == null) {
+            sprite.gameObject.SetActive(false);
+            sprite.sprite = null;
+            return;
+        }
 
         sprite.gameObject.SetActive(true);
         sprite.sprite = artefact.sprite;
@@ -67,5 +71,7 @@ public class SlotManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
 
         inventoryManager.heldInventory.SetHeld(this);
+        inventoryManager.RemoveArtefact(this);
+        inventoryManager.ShowInventory();
     }
 }

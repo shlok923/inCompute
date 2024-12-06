@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   artefactName: Keyboard Hint Artefact
   model: {fileID: 0}
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: f7367c687d3943a478902b2b1fd8d2a9, type: 3}
+  infoSprite: {fileID: 21300000, guid: f7367c687d3943a478902b2b1fd8d2a9, type: 3}
+  type: 0

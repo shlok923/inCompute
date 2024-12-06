@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Card of Freeze
   behaviour: {fileID: 11400000, guid: 95d4c9ce35aa21d4ebcb56bf83b57ac1, type: 2}
-  sprite: {fileID: 21300000, guid: 3d0033282df6a7447b205aa566a3f45a, type: 3}
-  infoCard: {fileID: 21300000, guid: 78d94c14ed436904f8cd63191ec860a1, type: 3}
+  sprite: {fileID: 21300000, guid: ce9782e2682dab54a8a7cd9d4bf91638, type: 3}
+  infoCard: {fileID: 21300000, guid: 211aec21f5a7c0c4e81339384aab9f21, type: 3}

@@ -38,11 +38,15 @@ public class Player : MonoBehaviour, IObjectParent
     private Vector3 lastInteractDir;
     private Interactable interactableObject;
     [SerializeField] private PickupObject heldObject;
+    [SerializeField] private HeldInventoy heldInventory;
+    [SerializeField] private ArtefactInfo artefactInfo;
 
     //private KitchenObject kitchenObject;
 
     private void Awake()
     {
+        heldInventory.inventoryManager.gameObject.SetActive(true);
+        heldInventory.inventoryManager.gameObject.SetActive(false);
         if (instance != null)
         {
             Debug.LogError("more than one player exists");
@@ -81,6 +85,8 @@ public class Player : MonoBehaviour, IObjectParent
         if (interactableObject != null)
         {
             interactableObject.Interact(this);
+        } else if (heldInventory.slot.artefact != null) {
+            artefactInfo.ShowHint();
         }
     }
 

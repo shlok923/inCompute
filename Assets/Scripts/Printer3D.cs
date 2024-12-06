@@ -26,7 +26,7 @@ public class Printer3D : Interactable
         //}
 
         Debug.Log("Recieving blueprint...");
-        SlotManager slot = heldInventoy.HeldSlot;
+        SlotManager slot = heldInventoy.slot;
 
         foreach(PickupObjects pickupObject in pickupObjects)
         {
@@ -37,6 +37,7 @@ public class Printer3D : Interactable
 
                 ArtefactInInventory(pickupObject);
                 slot.RemoveFromSlot();
+                heldInventoy.instantiatedArtefact = null;
                 //pickupObject.gameObject.SetActive(true);
                 //objectMade = true;
                 return;

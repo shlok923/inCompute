@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Card of Tracer
   behaviour: {fileID: 0}
-  sprite: {fileID: 21300000, guid: 20850063a66464143b1de4dea9c64aaf, type: 3}
-  infoCard: {fileID: 21300000, guid: f57bc442a31dc1e4680468be56384b7b, type: 3}
+  sprite: {fileID: 21300000, guid: 7491489b796e3c148ba7bee9e090bbb1, type: 3}
+  infoCard: {fileID: 21300000, guid: 740d16f7a1ebe1e40a529b097a22834a, type: 3}

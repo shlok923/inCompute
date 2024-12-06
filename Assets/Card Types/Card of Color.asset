@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Card of Color
   behaviour: {fileID: 11400000, guid: 9bda9002f04cc1e4fbc3d0427e4e12a9, type: 2}
-  sprite: {fileID: 21300000, guid: 283f06a8706bb4448957dbbf9518cf03, type: 3}
-  infoCard: {fileID: 21300000, guid: 0f09fc7a57b9fae469dd94a639f6fd2a, type: 3}
+  sprite: {fileID: 21300000, guid: 35fd8fea9da51d84b9600a59ee332ae6, type: 3}
+  infoCard: {fileID: 21300000, guid: 6d032175e7fd733459642f5e792ff997, type: 3}

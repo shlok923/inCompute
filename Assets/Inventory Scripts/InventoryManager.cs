@@ -20,9 +20,9 @@ public class InventoryManager : MonoBehaviour {
     private CardHolder cardHolder;
     public bool isInventoryOpen = false;
 
-    public GameObject artefactInfo;
+    public ArtefactInfo artefactInfo;
     public HeldInventoy heldInventory;
-    public List<ArtefactManager> testArtefacts;
+    //public List<ArtefactManager> testArtefacts;
 
     private void Awake() {
         player = FindFirstObjectByType<Player>();
@@ -32,19 +32,19 @@ public class InventoryManager : MonoBehaviour {
         InstantiateSlots();
     }
 
-    private void Start() {
-        for (int i = 0; i < testArtefacts.Count; i++) {
-            slots[i].AddToSlot(testArtefacts[i]);
-            occupied[i] = true;
-        }
-    }
+    //private void Start() {
+    //    for (int i = 0; i < testArtefacts.Count; i++) {
+    //        if (testArtefacts[i] == null) continue;
+    //        slots[i].AddToSlot(testArtefacts[i]);
+    //        occupied[i] = true;
+    //    }
+    //}
 
     private void InstantiateSlots() {
         slots = new List<SlotManager>();
         occupied = new List<bool>();
         Debug.Log("helo");
         for (int i = 0; i < numSlots; i++) {
-            Debug.Log(transform.GetChild(i).name);
             slots.Add(transform.GetChild(i).GetComponent<SlotManager>());
             occupied.Add(false);
         }
@@ -79,10 +79,12 @@ public class InventoryManager : MonoBehaviour {
 
     private void RegisterAddition(GameObject element, int slotIndex) {
         ArtefactManager artefactManager = element.GetComponent<ArtefactManager>();
+        if (artefactManager.artefact == null) return;
+
+        Debug.Log(">> " + slotIndex);
 
         artefacts[slotIndex] = artefactManager.artefact;
         slots[slotIndex].AddToSlot(artefactManager);
-        artefactManager.state = ArtefactManager.States.idle;
 
         Destroy(element);
         occupied[slotIndex] = true;
@@ -91,9 +93,9 @@ public class InventoryManager : MonoBehaviour {
     public void RemoveArtefact(SlotManager slot) {
         int slotIndex = GetIndex(slot);
 
-        artefacts[slotIndex] = null;
-
         slot.RemoveFromSlot();
+        Debug.Log(slotIndex);
+        artefacts[slotIndex] = null;
         occupied[slotIndex] = false;
     }
     
@@ -105,14 +107,54 @@ public class InventoryManager : MonoBehaviour {
     }
 
     public bool PickupArtefact(GameObject pickupElement) {
+        if (pickupElement == null) return false;
+
         for (int i = 0; i < slots.Count; i++) {
-            Debug.Log(occupied[i]);
             if (!occupied[i]) {
                 RegisterAddition(pickupElement, i);
+                ShowInventory();
                 return true;
             }
         }
+
         Debug.Log("Inventory Space exceeded!");
         return false;
+    }
+
+    public void ShowInventory() {
+        Debug.Log("Checking Inventory...");
+        for (int i = 0; i < slots.Count; i++) {
+            if (occupied[i]) {
+                Debug.Log(i + ": " + artefacts[i].ToString() + " = " + slots[i].artefact.ToString());
+            } else {
+                Debug.Log(i + ": " + null);
+            }
+        }
+    }
+
+    public void CloseInfo() {
+        artefactInfo.gameObject.SetActive(false);
+        artefactInfo.artefactSprite = null;
+
+        player.SetPaused(false);
+        artefactInfo.isShowing = false;
+
+        if (artefactInfo.inventoryOpenEarlier) {
+            gameObject.SetActive(true);
+            inventoryToggle.sprite = inventoryOnSprite;
+            isInventoryOpen = true;
+        } else {
+            cardHolder.ToggleInteractivity();
+        }
+
+        inventoryToggle.enabled = true;
+    }
+
+    public void ResetButtonSprite() {
+        inventoryToggle.sprite = inventoryOffSprite;
+    }
+
+    public CardHolder GetCardHolder() {
+        return cardHolder;
     }
 }

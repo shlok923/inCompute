@@ -43,7 +43,7 @@ public class MotherboardLevelManager : MonoBehaviour
     
     private void CheckRAMSlotState()
     {
-        Debug.Log("Checking RAM slot state...");
+        //Debug.Log("Checking RAM slot state...");
         if (ramSlot.IsObjectPlaced() && motherboardFile != null)
         {
             Debug.Log("RAM has been placed, motherboard file is now available.");
