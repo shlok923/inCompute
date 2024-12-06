@@ -1332,6 +1332,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &522956378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 522956380}
+  - component: {fileID: 522956381}
+  m_Layer: 0
+  m_Name: MusicTesting
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &522956380
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522956378}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 117.120255, y: 652.9025, z: 3.0310216}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &522956381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522956378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3135d3b7cb2bc94b8790fc8e9a67e41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedLevel: 0
 --- !u!1 &526071493
 GameObject:
   m_ObjectHideFlags: 0
@@ -3164,6 +3209,24 @@ MonoBehaviour:
   musicSource: {fileID: 12980768}
   SFXSource: {fileID: 1043129529}
   background: {fileID: 8300000, guid: d4db8215462be2a4b935cebc74585f9b, type: 3}
+  keyboardLvl: {fileID: 8300000, guid: 9e6d7b0f5ee955643be5af91b36ea018, type: 3}
+  GPULvl: {fileID: 8300000, guid: b44ccdccf3b88744184c3eefcc2e32b0, type: 3}
+  PowerLvl: {fileID: 8300000, guid: 7775f4af3f6114f4fa5ce916d18ec9e7, type: 3}
+  MotherboardLvl: {fileID: 8300000, guid: 40fe407c738f5e144b279769b0fd13b4, type: 3}
+  boundaryHit: {fileID: 8300000, guid: 007472ba656430648bb59841eb955570, type: 3}
+  cardPick: {fileID: 8300000, guid: 76c405fcf7f50674591846d7286a3485, type: 3}
+  damage: {fileID: 8300000, guid: 0d6592a60180c9d4682e2c9294e847b5, type: 3}
+  electricSpark: {fileID: 8300000, guid: 79e0cf3676be2dc4bb1cc3da935d3677, type: 3}
+  fan: {fileID: 8300000, guid: 562d0283ddbb4044a93a37da2b7062bc, type: 3}
+  fire: {fileID: 8300000, guid: 99f06bbebfa6b5745b038354e4b4b67d, type: 3}
+  flipCard: {fileID: 8300000, guid: d987508b8e9c8f746bbb2cae89c97a26, type: 3}
+  floating: {fileID: 8300000, guid: 6f696e00ebb5c3a428e8e146fd2c4628, type: 3}
+  itemEquip: {fileID: 8300000, guid: 753cee54fce1d9e4192f4bb463d1061a, type: 3}
+  keyboard: {fileID: 8300000, guid: 7737da34c836fc84daf733a4aa8b1dc9, type: 3}
+  lightSwitch: {fileID: 8300000, guid: 9d2ff942912edff4bbfcf32a70cbc336, type: 3}
+  plugIn: {fileID: 8300000, guid: 3dde2591c66953e45985883882ba1334, type: 3}
+  powerCharge: {fileID: 8300000, guid: aa610568df468244cace56cd5f568b52, type: 3}
+  shutDown: {fileID: 8300000, guid: 8811e23bd8e3b304baf40690bfccfa21, type: 3}
 --- !u!4 &1233759109
 Transform:
   m_ObjectHideFlags: 0
@@ -4091,3 +4154,4 @@ SceneRoots:
   - {fileID: 190747780}
   - {fileID: 1233759109}
   - {fileID: 383307779}
+  - {fileID: 522956380}
