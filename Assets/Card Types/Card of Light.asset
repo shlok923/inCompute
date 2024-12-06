@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e168b5309f48f404c8abcb56d1abeb90, type: 3}
-  m_Name: Path Card
+  m_Name: Card of Light
   m_EditorClassIdentifier: 
-  title: Enlighten Path
+  title: Light
   ID: 1
   behaviour: {fileID: 0}
-  sprite: {fileID: 0}
-  description: Helps you discover the upcoming sequence.
+  sprite: {fileID: 21300000, guid: fdef697dfe835a94c80a165004860fd8, type: 3}
+  description: Brightens the field, unveiling hidden details.

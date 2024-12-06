@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e168b5309f48f404c8abcb56d1abeb90, type: 3}
-  m_Name: Freeze Card
+  m_Name: Card of Freeze
   m_EditorClassIdentifier: 
-  title: Time Freeze
-  ID: 0
+  title: Freeze
+  ID: 2
   behaviour: {fileID: 0}
-  sprite: {fileID: 0}
-  description: Environment stops growing rapidly
+  sprite: {fileID: 21300000, guid: 78d94c14ed436904f8cd63191ec860a1, type: 3}
+  description: "Halts the maze\u2019s motion with an icy grip."
