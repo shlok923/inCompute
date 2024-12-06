@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5a0685dac3429c4db9a905c858eb6eb, type: 3}
   m_Name: GPU Crystal
   m_EditorClassIdentifier: 
-  artefactName: GPU Crystal
+  artefactName: GPU Crystal Artefact
   model: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   sprite: {fileID: 21300000, guid: 58405fbc1726e60448b0392b82a24d5e, type: 3}

@@ -7,6 +7,7 @@ public class PlaceObjects : Interactable
     [SerializeField] Artefact artefactForSlot;
     [SerializeField] InventoryManager inventoryManager;
     [SerializeField] private GameObject artefactObject;
+    [SerializeField] private HeldInventoy heldInventoy;
     private bool objectPlaced = false;
 
     public override void Interact(Player player)
@@ -22,19 +23,17 @@ public class PlaceObjects : Interactable
             Debug.Log("Object already placed");
             return;
         }
-        
-        Debug.Log("Placing object");
-        List<SlotManager> slots = inventoryManager.slots;
 
-        foreach (SlotManager slot in slots)
+        Debug.Log("Placing object");
+        SlotManager slot = heldInventoy.HeldSlot;
+
+        if (slot.artefact == artefactForSlot)
         {
-            if (slot.artefact == artefactForSlot)
-            {
-                Debug.Log("Object found");
-                slot.RemoveFromSlot();
-                artefactObject.SetActive(true);
-                return;
-            }
+            Debug.Log("Object found");
+            slot.RemoveFromSlot();
+            artefactObject.SetActive(true);
+            objectPlaced = true;
+            return;
         }
         Debug.Log("Object not found");
     }
@@ -42,7 +41,6 @@ public class PlaceObjects : Interactable
     public bool IsObjectPlaced()
     {
         return objectPlaced;
-    }   
-
+    }
 
 }

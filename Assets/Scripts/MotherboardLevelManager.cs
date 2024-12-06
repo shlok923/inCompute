@@ -8,6 +8,7 @@ public class MotherboardLevelManager : MonoBehaviour
 {
     [SerializeField] private PlaceObjects ramSlot; // Array of objects to place
     [SerializeField] private PlaceObjects[] levelFiles;
+    [SerializeField] private PickupObjects motherboardFile;
     private bool levelComplete = false;
     private bool ramPlaced = false;
 
@@ -19,6 +20,7 @@ public class MotherboardLevelManager : MonoBehaviour
 
     private void Update()
     {
+        CheckRAMSlotState();
         if (!levelComplete) CheckLevelStatus();
     }
 
@@ -30,7 +32,7 @@ public class MotherboardLevelManager : MonoBehaviour
             {
                 if (!levelFiles[i].IsObjectPlaced())
                 {
-                    break;
+                    return;
                 }
             }
             levelComplete = true;
@@ -41,9 +43,12 @@ public class MotherboardLevelManager : MonoBehaviour
     
     private void CheckRAMSlotState()
     {
-        if (ramSlot.IsObjectPlaced())
+        Debug.Log("Checking RAM slot state...");
+        if (ramSlot.IsObjectPlaced() && motherboardFile != null)
         {
+            Debug.Log("RAM has been placed, motherboard file is now available.");
             ramPlaced = true;
+            motherboardFile.gameObject.SetActive(true);
         }
     }
 

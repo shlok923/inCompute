@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PickupObjects : Interactable
 {
-    public GameObject artefact;
+    public ArtefactManager artefact;
     [SerializeField] private InventoryManager inventoryManager;
 
     private void Start()
@@ -19,13 +19,21 @@ public class PickupObjects : Interactable
         PickUp();
     }
 
-    private void PickUp()
+    public bool PickUp()
     {
-        if (inventoryManager.PickupArtefact(artefact))
+        if (inventoryManager.PickupArtefact(artefact.gameObject))
         {
+            ShowArtefactInfo();
             Destroy(gameObject);
-
+            return true;
         };
+
+        return false;
+    }
+
+    private void ShowArtefactInfo()
+    {
+        Debug.Log("Picked up " + artefact.artefact.name);
     }
 
 }

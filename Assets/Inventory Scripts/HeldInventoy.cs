@@ -31,4 +31,6 @@ public class HeldInventoy : MonoBehaviour {
         inventoryManager.PickupArtefact(instantiatedArtefact);
         instantiatedArtefact = null;
     }
+
+    public SlotManager HeldSlot => slot;
 }
