@@ -52,6 +52,13 @@ public class LocksBehaviour : CardBehaviour
 
     private IEnumerator ActivateSequence()
     {
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.lockCardUse);
+        dialsToCorrect[0].ResetToOriginalAngle();
+        dialsToCorrect[1].ResetToOriginalAngle();
+
+        yield return new WaitForSeconds(1);
+
         // Turn the first dial
         dialsToCorrect[0].TurnDialMultipleTimes(6);
 

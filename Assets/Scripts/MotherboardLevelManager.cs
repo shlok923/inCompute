@@ -24,7 +24,7 @@ public class MotherboardLevelManager : MonoBehaviour
     [SerializeField] private Material[] levelPlacesMaterials;
 
     //[SerializeField] private GameObject[] placeholders; 
-    [SerializeField] public float lerpDuration = 2f;     // Duration for the lerp
+    [SerializeField] public float lerpDuration = 7f;     // Duration for the lerp
     private Vector3 originalPosition = new Vector3(3.5f, 0, 1);
 
     private bool levelComplete = false;
@@ -104,6 +104,7 @@ public class MotherboardLevelManager : MonoBehaviour
 
     private IEnumerator SplitTheChip()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.powerCharge);
         Debug.Log("SplitTheChip Coroutine Started");
 
         float elapsedTime = 0f;
@@ -134,7 +135,7 @@ public class MotherboardLevelManager : MonoBehaviour
 
     private IEnumerator LiftShuttle()
     {
-
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.whooshLvlSwitch);
         yield return new WaitForSeconds(2f);
         float elapsedTime = 0f;
         float lerpDuration = 5f;

@@ -114,6 +114,10 @@ public class MazeGenerator : MonoBehaviour
         currentMaze = newMaze;
         mazeObjects.Clear();
 
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.keyboard);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.keyboard);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.keyboard);
+
         Vector3 playerPosition = player.transform.position;
         Vector2Int playerCell = new Vector2Int(
             Mathf.RoundToInt(playerPosition.x / 2f) * 2,
@@ -158,6 +162,11 @@ public class MazeGenerator : MonoBehaviour
 
     private IEnumerator TransitionMaze()
     {
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.keyboard);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.keyboard);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.keyboard);
+
         Debug.Log("Transitioning maze.");
         // Determine the player's current cell based on position
         Vector3 playerPosition = player.transform.position;

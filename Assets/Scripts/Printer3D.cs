@@ -35,7 +35,7 @@ public class Printer3D : Interactable
             {
                 Debug.Log("Blueprint found");
 
-
+                AudioManager.Instance.PlaySFX(AudioManager.Instance.electricSpark);
                 ArtefactInInventory(pickupObject);
                 slot.RemoveFromSlot();
                 heldInventoy.instantiatedArtefact = null;

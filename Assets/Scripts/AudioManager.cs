@@ -134,6 +134,14 @@ public class AudioManager : MonoBehaviour
     public AudioClip powerCharge;
     public AudioClip shutDown;
     public AudioClip scan;
+    public AudioClip whoosh;
+    public AudioClip whooshLvlSwitch;
+
+    [Header("-----CARD SOUNDS-----")]
+    public AudioClip cardPickup;
+    public AudioClip freezeCardUse;
+    public AudioClip lockCardUse;
+    public AudioClip colorCardUse;
 
     private string currentLevelName = "main";
     private Coroutine fadeCoroutine;

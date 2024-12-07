@@ -35,6 +35,8 @@ public class LevelChangeLever : Interactable
         GPULevel.SetActive(false);
 
         targetRotation = stateOne; // Set the initial target rotation
+        AudioManager.Instance.PlayMusic(AudioManager.Instance.MotherboardLvl);
+        //AudioManager.Instance.PlaySFX(AudioManager.Instance.leverMusic);
     }
 
     public override void Interact(Player player)
@@ -132,6 +134,7 @@ public class LevelChangeLever : Interactable
 
         elapsedTime = 0f;
 
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.whooshLvlSwitch);
         // shift levels with acceleration
         while (elapsedTime < shiftTime)
         {
@@ -279,21 +282,25 @@ public class LevelChangeLever : Interactable
     {
         if (MainBoard.activeSelf)
         {
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.keyboardLvl);
             return keyboardHint == null ? KeyboardLevel : KeyboardLevelInitState;
         }
 
         if (KeyboardLevel.activeSelf || KeyboardLevelInitState.activeSelf)
         {
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.PowerLvl);
             return powerSupplyHint == null ? PowerSupplyLevel : PowerSupplyLevelInitState;
         }
 
         if (PowerSupplyLevel.activeSelf || PowerSupplyLevelInitState.activeSelf)
         {
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.GPULvl);
             return gpuHint == null ? GPULevel : GPULevelInitState;
         }
 
         if (GPULevel.activeSelf || GPULevelInitState.activeSelf)
         {
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.MotherboardLvl);
             return MainBoard;
         }
 
@@ -305,21 +312,25 @@ public class LevelChangeLever : Interactable
     {
         if (MainBoard.activeSelf)
         {
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.GPULvl);
             return gpuHint == null ? GPULevel : GPULevelInitState;
         }
 
         if (GPULevel.activeSelf || GPULevelInitState.activeSelf)
         {
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.PowerLvl);
             return powerSupplyHint == null ? PowerSupplyLevel : PowerSupplyLevelInitState;
         }
 
         if (PowerSupplyLevel.activeSelf || PowerSupplyLevelInitState.activeSelf)
         {
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.keyboardLvl);
             return keyboardHint == null ? KeyboardLevel : KeyboardLevelInitState;
         }
 
         if (KeyboardLevel.activeSelf || KeyboardLevelInitState.activeSelf)
         {
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.MotherboardLvl);
             return MainBoard;
         }
 

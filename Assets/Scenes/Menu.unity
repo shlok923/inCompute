@@ -2430,7 +2430,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: AddingAudios
+          m_StringArgument: GameScene
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!222 &918801595
@@ -3239,7 +3239,13 @@ MonoBehaviour:
   plugIn: {fileID: 8300000, guid: 3dde2591c66953e45985883882ba1334, type: 3}
   powerCharge: {fileID: 8300000, guid: aa610568df468244cace56cd5f568b52, type: 3}
   shutDown: {fileID: 8300000, guid: 8811e23bd8e3b304baf40690bfccfa21, type: 3}
-  scan: {fileID: 8300000, guid: 66cc81ced1e049640a6c573cd9f443d2, type: 3}
+  scan: {fileID: 8300000, guid: ed2dd2f57d1fe0148b698bb22a96ded3, type: 3}
+  whoosh: {fileID: 8300000, guid: f72e0eebb8b4dc142a57f3536edeff37, type: 3}
+  whooshLvlSwitch: {fileID: 8300000, guid: 6721194d081322447bff35080aac765c, type: 3}
+  cardPickup: {fileID: 0}
+  freezeCardUse: {fileID: 0}
+  lockCardUse: {fileID: 0}
+  colorCardUse: {fileID: 0}
 --- !u!4 &1233759109
 Transform:
   m_ObjectHideFlags: 0

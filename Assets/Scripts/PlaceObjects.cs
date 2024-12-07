@@ -31,6 +31,7 @@ public class PlaceObjects : Interactable
         if (slot.artefact == artefactForSlot)
         {
             Debug.Log("Object found");
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.plugIn);
             slot.RemoveFromSlot();
             heldInventoy.instantiatedArtefact = null;
             artefactObject.SetActive(true);

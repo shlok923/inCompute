@@ -60,12 +60,14 @@ public class PickupObjects : Interactable
 
     private IEnumerator PickupWithAnimation()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.scan);
         Debug.Log("Performing scanning animation");
         if (scannerObject == null) yield break;
 
         // Perform the scanning animation
         yield return StartCoroutine(PerformScanningAnimation());
 
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.itemEquip);
         // Log information and destroy the game object after the animation
         ShowArtefactInfo();
         Destroy(gameObject);

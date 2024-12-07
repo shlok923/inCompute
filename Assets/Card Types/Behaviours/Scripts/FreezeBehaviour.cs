@@ -16,6 +16,7 @@ public class FreezeBehaviour : CardBehaviour {
 
     public override void Activate() {
         mazeGenerator.canTransition = false;
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.freezeCardUse);
     }
 
     public override void Regenerate() {

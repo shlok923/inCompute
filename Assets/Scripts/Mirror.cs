@@ -40,6 +40,7 @@ public class Mirror : Interactable
         // Smoothly move the mirror up and down
         if (isMoving)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.whoosh);
             transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, moveSpeed * Time.deltaTime);
 
             // Stop movement once close enough to the target
@@ -53,6 +54,7 @@ public class Mirror : Interactable
         // Smoothly rotate the mirror between CardStates
         if (isRotating)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.whoosh);
             transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, moveSpeed * Time.deltaTime);
 
             // Stop rotation once close enough to the target rotation

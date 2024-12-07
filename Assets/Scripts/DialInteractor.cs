@@ -40,6 +40,7 @@ public class DialInteractor : Interactable {
     }
 
     private void RotateDial(float frame) {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.lightSwitch);
         Quaternion currentRotation = Quaternion.Euler(currentAngle, initialYRotation, initialZRotation);
         Quaternion endRotation = Quaternion.Euler(turnEndAngle, initialYRotation, initialZRotation);
         transform.rotation = Quaternion.Slerp(currentRotation, endRotation, frame);
@@ -62,6 +63,7 @@ public class DialInteractor : Interactable {
 
     private IEnumerator ResetDialCoroutine()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.lightSwitch);
         beingTurned = true; // Block other interactions during reset
         float resetElapsedTime = 0f;
         Quaternion startRotation = transform.rotation;
