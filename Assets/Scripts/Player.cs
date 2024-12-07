@@ -40,6 +40,7 @@ public class Player : MonoBehaviour, IObjectParent
     [SerializeField] private PickupObject heldObject;
     [SerializeField] private HeldInventoy heldInventory;
     [SerializeField] private ArtefactInfo artefactInfo;
+    [SerializeField] private GameObject interactCanvas;
 
     //private KitchenObject kitchenObject;
 
@@ -62,6 +63,14 @@ public class Player : MonoBehaviour, IObjectParent
         gameInput.OnInteractAction += GameInput_OnInteractAction;
         gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
         gameInput.OnMirrorRotationAction += GameInput_OnMirrorRotationAction;
+    }
+
+    private void FixedUpdate() {
+        if (interactableObject != null) {
+            interactCanvas.SetActive(true);
+        } else if (interactCanvas.transform.childCount >= 1) {
+            interactCanvas.SetActive(false);
+        }
     }
 
     private void GameInput_OnMirrorRotationAction(object sender, EventArgs e)
