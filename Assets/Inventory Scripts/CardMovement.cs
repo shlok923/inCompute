@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static System.TimeZoneInfo;
 
 public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler {
     public enum CardStates {
@@ -17,6 +18,7 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     public CardStates cardState = CardStates.idle;
     private Vector3 originalPosition;
     private Vector3 originalScale;
+    private Quaternion originalRotation;
 
     public bool canInteract = true;
     private CardHolder holder;
@@ -34,9 +36,18 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
     public GameObject descriptionBox;
     private GameObject instantiatedDescriptionBox;
 
+    private float elapsedTime = 0f;
+    public float transitionTimer = 0f;
+    public float transitionDuration = 0.5f;
+    public bool canTransition = true;
+    public bool isHovered = false;
+
     private void Awake() {
         originalPosition = bounds.localPosition;
         originalScale = bounds.localScale;
+        originalRotation = transform.localRotation;
+
+        Debug.Log(transform.position);
 
         holder = GetComponentInParent<CardHolder>();
         playManager = GetComponentInParent<CardPlayManager>();
@@ -44,6 +55,29 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
         UI.overrideSorting = true;
         UI.sortingOrder = 1;
+    }
+
+    private void Update() {
+        if (instantiatedDescriptionBox) {
+            instantiatedDescriptionBox.transform.rotation = Quaternion.identity;
+            instantiatedDescriptionBox.transform.localPosition = hoverPlaceholder.localPosition;
+        }
+
+        if (canTransition) {
+            if (isHovered && transitionTimer < transitionDuration) {
+                transitionTimer += Time.deltaTime;
+            } else if (!isHovered && transitionTimer > 0f) {
+                transitionTimer -= Time.deltaTime;
+            } else if (!isHovered) {
+                return;
+            }
+
+            // Clamp the timer to ensure it's between 0 and transitionDuration
+            transitionTimer = Mathf.Clamp(transitionTimer, 0f, transitionDuration);
+
+            Transition(transitionTimer / transitionDuration);
+            //elapsedTime += Time.deltaTime;
+        }
     }
 
     private void UpdateState() {
@@ -62,11 +96,12 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     public void IdleState() {
         highlight.SetActive(false);
-        GetComponent<CardImplementation>().background.SetActive(true);
+        isHovered = false;
 
-        bounds.localPosition = originalPosition;
-        bounds.localScale = originalScale;
-       
+        //bounds.localPosition = originalPosition;
+        //bounds.localScale = originalScale;
+        //transform.localRotation = originalRotation;
+
         if (instantiatedDescriptionBox != null) {
             Destroy(instantiatedDescriptionBox);
             instantiatedDescriptionBox = null;
@@ -77,10 +112,13 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     private void HoverState() {
         highlight.SetActive(true);
-        GetComponent<CardImplementation>().background.SetActive(false);
+        isHovered = true;
 
-        bounds.localPosition = hoverPlaceholder.localPosition;
-        bounds.localScale = hoverPlaceholder.localScale.magnitude / Mathf.Sqrt(3) * originalScale;
+        //float previousAngle = originalRotation.eulerAngles.z * Mathf.Deg2Rad;
+        //bounds.localPosition = hoverPlaceholder.localPosition.y * new Vector3(-Mathf.Sin(previousAngle), Mathf.Cos(previousAngle), 0f);
+        //bounds.localPosition = hoverPlaceholder.localPosition;
+        //bounds.localScale = hoverPlaceholder.localScale.magnitude / Mathf.Sqrt(3) * originalScale;
+        //transform.localRotation = Quaternion.identity;
 
         instantiatedDescriptionBox = Instantiate(descriptionBox, transform.position + descriptionOffset, Quaternion.identity, UI.transform);
         instantiatedDescriptionBox.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = GetComponent<CardImplementation>().card.title;
@@ -91,7 +129,6 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
 
     private void InfoState() {
         highlight.SetActive(false);
-        GetComponent<CardImplementation>().background.SetActive(false);
 
         if (instantiatedDescriptionBox != null) {
             Destroy(instantiatedDescriptionBox);
@@ -121,5 +158,23 @@ public class CardMovement : MonoBehaviour, IPointerDownHandler, IPointerEnterHan
             cardState = CardStates.info;
             UpdateState();
         }
+    }
+
+    private void Transition(float frame) {
+        // Target transform when hovered
+        Vector3 targetPosition = hoverPlaceholder.localPosition;
+        Quaternion targetRotation = hoverPlaceholder.localRotation;
+        Vector3 targetScale = hoverPlaceholder.localScale;
+
+        // Lerp to the target values
+        bounds.localPosition = Vector3.Lerp(originalPosition, targetPosition, frame);
+        transform.rotation = Quaternion.Lerp(originalRotation, targetRotation, frame);
+        bounds.localScale = Vector3.Lerp(originalScale, targetScale, frame);
+        //} else {
+        //    // Lerp back to the initial values
+        //    transform.position = Vector3.Lerp(transform.position, originalPosition, frame);
+        //    transform.rotation = Quaternion.Lerp(transform.rotation, originalRotation, frame);
+        //    transform.localScale = Vector3.Lerp(transform.localScale, originalScale, frame);
+        //}
     }
 }

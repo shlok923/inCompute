@@ -2430,7 +2430,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: GameScene
+          m_StringArgument: AddingAudios
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!222 &918801595
@@ -3239,7 +3239,7 @@ MonoBehaviour:
   plugIn: {fileID: 8300000, guid: 3dde2591c66953e45985883882ba1334, type: 3}
   powerCharge: {fileID: 8300000, guid: aa610568df468244cace56cd5f568b52, type: 3}
   shutDown: {fileID: 8300000, guid: 8811e23bd8e3b304baf40690bfccfa21, type: 3}
-  scan: {fileID: 0}
+  scan: {fileID: 8300000, guid: 66cc81ced1e049640a6c573cd9f443d2, type: 3}
 --- !u!4 &1233759109
 Transform:
   m_ObjectHideFlags: 0

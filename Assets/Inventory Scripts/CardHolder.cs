@@ -9,6 +9,8 @@ public class CardHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Transform cardPositioner;
     public Transform playPositioner;
     public float horizontalSpacing;
+    public float verticalSpacing;
+    public float fanSpread;
 
     public GameObject cardPrefab;
     public List<GameObject> cards;
@@ -50,10 +52,10 @@ public class CardHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void Update() {
         UpdateVisuals();
-        if (isTransitioning) {
-            Transition(requiredW, requiredP, requiredS, elapsedTime / transitionDuration);
-            elapsedTime += Time.deltaTime;
-        }
+        //if (isTransitioning) {
+        //    Transition(requiredW, requiredP, requiredS, elapsedTime / transitionDuration);
+        //    elapsedTime += Time.deltaTime;
+        //}
     }
 
     public GameObject GenerateCard(Card card, Vector3 position, Transform parent) {
@@ -99,13 +101,23 @@ public class CardHolder : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void UpdateVisuals() {
         if (cards.Count == 1) {
+            if (cards[0].GetComponent<CardMovement>().cardState == CardMovement.CardStates.hover) return;
+            cards[0].transform.localRotation = Quaternion.identity;
             cards[0].transform.localPosition = Vector3.zero;
             return;
         }
 
         for (int i = 0; i < cards.Count; i++) {
-            float horizontalOffset = horizontalSpacing * (i - (cards.Count - 1) / 2f);
-            Vector3 cardPosition = new Vector3(horizontalOffset, 0f, 0f);
+            if (cards[i].GetComponent<CardMovement>().cardState == CardMovement.CardStates.hover) continue;
+
+            float rotationAngle = fanSpread * (i - ((cards.Count - 1) / 2f));
+            cards[i].transform.localRotation = Quaternion.Euler(0f, 0f, rotationAngle);
+
+            float horizontalOffset = horizontalSpacing * (i - ((cards.Count - 1) / 2f));
+            float normalizedPosition = 2f * i / (cards.Count - 1) - 1f;
+            float verticalOffset = verticalSpacing * (1 - Mathf.Pow(normalizedPosition, 2));
+
+            Vector3 cardPosition = new Vector3(horizontalOffset, verticalOffset, 0f);
             cards[i].transform.localPosition = cardPosition;
         }
     }

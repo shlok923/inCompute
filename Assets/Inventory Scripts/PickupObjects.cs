@@ -24,7 +24,9 @@ public class PickupObjects : Interactable
     {
         base.Interact(player);
         playerInScene = player;
-        if (playerInScene != null) PickUp();
+        if (playerInScene != null) { 
+            PickUp();
+        }
         else Debug.Log("Player not found");
     }
 
@@ -74,6 +76,7 @@ public class PickupObjects : Interactable
 
     private IEnumerator PerformScanningAnimation()
     {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.scan);
         Debug.Log("Performing scanning animation");
         if (scannerObject == null) yield break;
 
@@ -106,6 +109,8 @@ public class PickupObjects : Interactable
             yield return null;
         }
         scannerObject.transform.localPosition = startPosition;
+
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.itemEquip);
 
         // Disable the scanner
         scannerObject.SetActive(false);
