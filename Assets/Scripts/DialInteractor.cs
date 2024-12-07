@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DialInteractor : Interactable {
+
+    public PowerSupplyManager powerSupplyManager;
     private float currentAngle;
+    private float originalAngle;
     public float turnAngle = 45f;
     private float turnEndAngle;
     public float targetAngle;
@@ -16,6 +19,7 @@ public class DialInteractor : Interactable {
     private float elapsedTime = 0f;
 
     private void Awake() {
+        originalAngle = transform.eulerAngles.x;
         currentAngle = transform.eulerAngles.x;
         initialYRotation = transform.eulerAngles.y;
         initialZRotation = transform.eulerAngles.z;
@@ -23,6 +27,7 @@ public class DialInteractor : Interactable {
 
     private void FixedUpdate() {
         if (beingTurned) {
+
             RotateDial(elapsedTime / rotationTime);
             elapsedTime += Time.fixedDeltaTime;
         }
@@ -31,6 +36,7 @@ public class DialInteractor : Interactable {
     public override void Interact(Player player) {
         turnEndAngle = (currentAngle - turnAngle) % 360;
         beingTurned = true;
+        powerSupplyManager.OnDialConfigurationChanged(this);
     }
 
     private void RotateDial(float frame) {
@@ -44,6 +50,36 @@ public class DialInteractor : Interactable {
             elapsedTime = 0f;
         }
     }
+
+    // Function to reset the dial's angle to the original angle
+    public void ResetToOriginalAngle()
+    {
+        if (!beingTurned) // Prevent resetting while the dial is being turned
+        {
+            StartCoroutine(ResetDialCoroutine());
+        }
+    }
+
+    private IEnumerator ResetDialCoroutine()
+    {
+        beingTurned = true; // Block other interactions during reset
+        float resetElapsedTime = 0f;
+        Quaternion startRotation = transform.rotation;
+        Quaternion targetRotation = Quaternion.Euler(originalAngle, initialYRotation, initialZRotation);
+
+        while (resetElapsedTime < rotationTime)
+        {
+            float progress = resetElapsedTime / rotationTime;
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, progress);
+            resetElapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.rotation = targetRotation; // Ensure it ends at the exact target
+        currentAngle = originalAngle; // Update current angle to reflect reset
+        beingTurned = false;
+    }
+
 
     public bool hasCorrectConfiguration() {
         return currentAngle == -targetAngle;

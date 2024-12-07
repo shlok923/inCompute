@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelChangeLever : Interactable
@@ -13,48 +11,203 @@ public class LevelChangeLever : Interactable
 
     [SerializeField] private Player player;
 
+    [SerializeField] private GameObject leverHandle;
+    private Quaternion stateOne = Quaternion.Euler(270.019775f, 0, 0);
+    private Quaternion stateTwo = Quaternion.Euler(319.552032f, 180, 180);
+    private Quaternion targetRotation;
+    private float rotationSpeed = 2f;
+
+    private bool isTransitioning = false;
+
     private void Start()
     {
         MainBoard.SetActive(true);
         KeyboardLevel.SetActive(false);
         PowerSupplyLevel.SetActive(false);
         GPULevel.SetActive(false);
+
+        targetRotation = stateOne; // Set the initial target rotation
     }
-
-
 
     public override void Interact(Player player)
     {
-        // going down
-        if (MainBoard.activeSelf)
+        if (!isTransitioning)
         {
-            MainBoard.SetActive(false);
-            KeyboardLevel.SetActive(true);
-            mazeGenerator.gameObject.SetActive(true);
-            mazeGenerator.RespawnLevel();
-        }
-        else if (KeyboardLevel.activeSelf)
-        {
-            mazeGenerator.DespawnLevel();
-            mazeGenerator.gameObject.SetActive(false);
-            KeyboardLevel.SetActive(false);
-            PowerSupplyLevel.SetActive(true);
-        }
-        else if (PowerSupplyLevel.activeSelf)
-        {
-            //Debug.Log("Switching to  ");
-            PowerSupplyLevel.SetActive(false);
-            GPULevel.SetActive(true);
-        }
-        else if (GPULevel.activeSelf)
-        {
-            GPULevel.SetActive(false);
-            MainBoard.SetActive(true);
+            GameObject currentLevel = GetCurrentLevel(); // Your method to fetch the current level
+            GameObject nextLevel = GetNextLevel();       // Your method to fetch the next level
+
+            if (currentLevel != null && nextLevel != null)
+            {
+                // Pass 'true' for left-to-right transitions
+                StartCoroutine(LevelTransitionRoutine(currentLevel, nextLevel, true));
+            }
         }
     }
 
     public override void InteractAlternate(Player player)
     {
+        if (!isTransitioning)
+        {
+            GameObject currentLevel = GetCurrentLevel(); // Your method to fetch the current level
+            GameObject nextLevel = GetPreviousLevel();   // Your method to fetch the previous level
+
+            if (currentLevel != null && nextLevel != null)
+            {
+                // Pass 'false' for right-to-left transitions
+                StartCoroutine(LevelTransitionRoutine(currentLevel, nextLevel, false));
+            }
+        }
+    }
+    private void ToggleRotationState()
+    {
+        targetRotation = targetRotation == stateOne ? stateTwo : stateOne;
+        StartCoroutine(RotateLever());
+    }
+
+    private IEnumerator RotateLever()
+    {
+        while (Quaternion.Angle(leverHandle.transform.rotation, targetRotation) > 0.01f)
+        {
+            leverHandle.transform.rotation = Quaternion.Lerp(
+                leverHandle.transform.rotation,
+                targetRotation,
+                rotationSpeed * Time.deltaTime
+            );
+            yield return null;
+        }
+        leverHandle.transform.rotation = targetRotation;
+    }
+
+    private IEnumerator LevelTransitionRoutine(GameObject currentLevel, GameObject nextLevel, bool toRight, float liftTime = 1f, float shiftTime = 2f, float landTime = 1f)
+    {
+        isTransitioning = true;
+        player.SetPaused(true);
+        Debug.Log("Transitioning levels...");
+
+        Vector3 leftUpPosition = new Vector3(0f, 2f, -2f);
+        Vector3 rightUpPosition = new Vector3(0f, 2f, 2f);
+        Vector3 liftPosition = new Vector3(0f, 5f, 0f);
+        Vector3 leftDownPosition = new Vector3(0f, 0f, -2f);
+        Vector3 rightDownPosition = new Vector3(0f, 0f, 2f);
+        Vector3 currentLevelStartPosition = currentLevel.transform.localPosition;
+
+        if (currentLevelStartPosition != Vector3.zero) Debug.Log("Current level position not origin: " + currentLevelStartPosition);
+
+
+        nextLevel.SetActive(true);
+
+        float elapsedTime = 0f;
+
+        // lift levels
+        while (elapsedTime < liftTime)
+        {
+            float t = elapsedTime / liftTime;
+            if (toRight)
+            {
+                currentLevel.transform.localPosition = Vector3.Lerp(currentLevelStartPosition, liftPosition, t);
+                nextLevel.transform.localPosition = Vector3.Lerp(rightDownPosition, rightUpPosition, t);
+            }
+            else
+            {
+                currentLevel.transform.localPosition = Vector3.Lerp(currentLevelStartPosition, liftPosition, t);
+                nextLevel.transform.localPosition = Vector3.Lerp(leftDownPosition, leftUpPosition, t);
+            }
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        elapsedTime = 0f;
+
+        while (elapsedTime < shiftTime)
+        {
+            float t = elapsedTime / shiftTime;
+            if (toRight)
+            {
+                currentLevel.transform.localPosition = Vector3.Lerp(liftPosition, leftUpPosition, t);
+                nextLevel.transform.localPosition = Vector3.Lerp(rightUpPosition, liftPosition, t);
+            }
+            else
+            {
+                currentLevel.transform.localPosition = Vector3.Lerp(liftPosition, rightUpPosition, t);
+                nextLevel.transform.localPosition = Vector3.Lerp(leftUpPosition, liftPosition, t);
+            }
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        elapsedTime = 0f;
+
+        // land levels
+
+        while (elapsedTime < landTime)
+        {
+            float t = elapsedTime / landTime;
+            if (toRight)
+            {
+                currentLevel.transform.localPosition = Vector3.Lerp(leftUpPosition, leftDownPosition, t);
+                nextLevel.transform.localPosition = Vector3.Lerp(liftPosition, Vector3.zero, t);
+            }
+            else
+            {
+                currentLevel.transform.localPosition = Vector3.Lerp(rightUpPosition, rightDownPosition, t);
+                nextLevel.transform.localPosition = Vector3.Lerp(liftPosition, Vector3.zero, t);
+            }
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure final positions
+        if (toRight)
+        {
+            currentLevel.transform.localPosition = leftDownPosition;
+            nextLevel.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            currentLevel.transform.localPosition = rightDownPosition;
+            nextLevel.transform.localPosition = Vector3.zero;
+        }
+        //currentLevel.transform.position = currentLevelEndPosition;
+        //nextLevel.transform.position = nextLevelEndPosition;
+
+        // Deactivate previous level
+        currentLevel.SetActive(false);
+        player.SetPaused(false);
+
+        Debug.Log("Transition complete. New level: " + nextLevel.name);
+        isTransitioning = false;
+    }
+
+    private void SwitchToNextLevel()
+    {
+        if (MainBoard.activeSelf)
+        {
+            MainBoard.SetActive(false);
+            KeyboardLevel.SetActive(true);
+            mazeGenerator.gameObject.SetActive(true);
+            mazeGenerator.RespawnLevel();
+        }
+        else if (KeyboardLevel.activeSelf)
+        {
+            mazeGenerator.DespawnLevel();
+            mazeGenerator.gameObject.SetActive(false);
+            KeyboardLevel.SetActive(false);
+            PowerSupplyLevel.SetActive(true);
+        }
+        else if (PowerSupplyLevel.activeSelf)
+        {
+            PowerSupplyLevel.SetActive(false);
+            GPULevel.SetActive(true);
+        }
+        else if (GPULevel.activeSelf)
+        {
+            GPULevel.SetActive(false);
+            MainBoard.SetActive(true);
+        }
+    }
+
+    private void SwitchToPreviousLevel()
+    {
         if (MainBoard.activeSelf)
         {
             MainBoard.SetActive(false);
@@ -81,5 +234,30 @@ public class LevelChangeLever : Interactable
         }
     }
 
+    private GameObject GetCurrentLevel()
+    {
+        if (MainBoard.activeSelf) return MainBoard;
+        if (KeyboardLevel.activeSelf) return KeyboardLevel;
+        if (PowerSupplyLevel.activeSelf) return PowerSupplyLevel;
+        if (GPULevel.activeSelf) return GPULevel;
+        return null;
+    }
 
+    private GameObject GetNextLevel()
+    {
+        if (MainBoard.activeSelf) return KeyboardLevel;
+        if (KeyboardLevel.activeSelf) return PowerSupplyLevel;
+        if (PowerSupplyLevel.activeSelf) return GPULevel;
+        if (GPULevel.activeSelf) return MainBoard;
+        return null;
+    }
+
+    private GameObject GetPreviousLevel()
+    {
+        if (MainBoard.activeSelf) return GPULevel;
+        if (GPULevel.activeSelf) return PowerSupplyLevel;
+        if (PowerSupplyLevel.activeSelf) return KeyboardLevel;
+        if (KeyboardLevel.activeSelf) return MainBoard;
+        return null;
+    }
 }

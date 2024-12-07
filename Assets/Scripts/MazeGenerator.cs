@@ -13,6 +13,7 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] private float animationDuration = 1f; // Duration of sinking/rising animations
     [SerializeField] private float transitionPauseDuration = 1f; // Pause duration between transitions
     [SerializeField] private Player player; // Reference to the player object
+    [SerializeField] private PickupObject pickupObject; // Reference to the pickup object
 
     private bool[,] currentMaze; // Current maze grid
     private bool[,] newMaze; // New maze grid to compare against
@@ -33,7 +34,7 @@ public class MazeGenerator : MonoBehaviour
     }
 
     private IEnumerator RegenerateMazeRoutine()
-    {
+    {   
         GenerateMaze(); // Generate the initial maze
         yield return StartCoroutine(InstantiateMazeWithAnimation());
         while (canTransition)
@@ -168,7 +169,8 @@ public class MazeGenerator : MonoBehaviour
         if (playerInMaze)
         {
             // Snap player's position to the center of their cell
-            player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(playerCell.x * cellSize, player.transform.position.y, playerCell.y * cellSize), 1f);
+            Vector3 targetPosition = new Vector3(playerCell.x * cellSize, player.transform.position.y, playerCell.y * cellSize);
+            StartCoroutine(MovePlayerToCenter(targetPosition, animationDuration));
             player.SetPaused(true);
 
         }
@@ -264,6 +266,21 @@ public class MazeGenerator : MonoBehaviour
         }
 
         Destroy(block);
+    }
+
+    private IEnumerator MovePlayerToCenter(Vector3 targetPosition, float duration)
+    {
+        float elapsedTime = 0f;
+        Vector3 startPos = player.transform.position;
+
+        while (elapsedTime < duration)
+        {
+            player.transform.position = Vector3.Lerp(startPos, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        player.transform.position = targetPosition;
     }
 
     private void OnTriggerEnter(Collider other)
