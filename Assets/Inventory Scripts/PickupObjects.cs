@@ -83,7 +83,7 @@ public class PickupObjects : Interactable
         // Activate the scanner and set its position
         scannerObject.SetActive(true);
         scannerObject.transform.localPosition = startPosition; // Ensure it's at the correct start position
-        Debug.Log("Scanner starting at: " + scannerObject.transform.localPosition);
+        //Debug.Log("Scanner starting at: " + scannerObject.transform.localPosition);
 
         // Move to the end position
         float elapsed = 0f;
@@ -91,7 +91,7 @@ public class PickupObjects : Interactable
         {
             scannerObject.transform.localPosition = Vector3.Lerp(startPosition, endPosition, elapsed / lerpDuration);
             elapsed += Time.deltaTime;
-            Debug.Log("Scanner position during upward motion: " + scannerObject.transform.localPosition);
+            //Debug.Log("Scanner position during upward motion: " + scannerObject.transform.localPosition);
             yield return null;
         }
         scannerObject.transform.localPosition = endPosition;
@@ -102,7 +102,7 @@ public class PickupObjects : Interactable
         {
             scannerObject.transform.localPosition = Vector3.Lerp(endPosition, startPosition, elapsed / lerpDuration);
             elapsed += Time.deltaTime;
-            Debug.Log("Scanner position during downward motion: " + scannerObject.transform.localPosition);
+            //Debug.Log("Scanner position during downward motion: " + scannerObject.transform.localPosition);
             yield return null;
         }
         scannerObject.transform.localPosition = startPosition;

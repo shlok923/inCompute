@@ -9,6 +9,14 @@ public class LevelChangeLever : Interactable
     [SerializeField] private GameObject GPULevel;
     [SerializeField] private MazeGenerator mazeGenerator;
 
+    [SerializeField] private GameObject KeyboardLevelInitState;
+    [SerializeField] private GameObject PowerSupplyLevelInitState;
+    [SerializeField] private GameObject GPULevelInitState;
+
+    public GameObject keyboardHint;
+    public GameObject powerSupplyHint;
+    public GameObject gpuHint;
+
     [SerializeField] private Player player;
 
     [SerializeField] private GameObject leverHandle;
@@ -259,24 +267,63 @@ public class LevelChangeLever : Interactable
         if (KeyboardLevel.activeSelf) return KeyboardLevel;
         if (PowerSupplyLevel.activeSelf) return PowerSupplyLevel;
         if (GPULevel.activeSelf) return GPULevel;
+        if (KeyboardLevelInitState.activeSelf) return KeyboardLevelInitState;
+        if (PowerSupplyLevelInitState.activeSelf) return PowerSupplyLevelInitState;
+        if (GPULevelInitState.activeSelf) return GPULevelInitState;
+
+        Debug.LogWarning("No active level found!");
         return null;
     }
 
     private GameObject GetNextLevel()
     {
-        if (MainBoard.activeSelf) return KeyboardLevel;
-        if (KeyboardLevel.activeSelf) return PowerSupplyLevel;
-        if (PowerSupplyLevel.activeSelf) return GPULevel;
-        if (GPULevel.activeSelf) return MainBoard;
+        if (MainBoard.activeSelf)
+        {
+            return keyboardHint == null ? KeyboardLevel : KeyboardLevelInitState;
+        }
+
+        if (KeyboardLevel.activeSelf || KeyboardLevelInitState.activeSelf)
+        {
+            return powerSupplyHint == null ? PowerSupplyLevel : PowerSupplyLevelInitState;
+        }
+
+        if (PowerSupplyLevel.activeSelf || PowerSupplyLevelInitState.activeSelf)
+        {
+            return gpuHint == null ? GPULevel : GPULevelInitState;
+        }
+
+        if (GPULevel.activeSelf || GPULevelInitState.activeSelf)
+        {
+            return MainBoard;
+        }
+
+        Debug.LogWarning("No valid next level found!");
         return null;
     }
 
     private GameObject GetPreviousLevel()
     {
-        if (MainBoard.activeSelf) return GPULevel;
-        if (GPULevel.activeSelf) return PowerSupplyLevel;
-        if (PowerSupplyLevel.activeSelf) return KeyboardLevel;
-        if (KeyboardLevel.activeSelf) return MainBoard;
+        if (MainBoard.activeSelf)
+        {
+            return gpuHint == null ? GPULevel : GPULevelInitState;
+        }
+
+        if (GPULevel.activeSelf || GPULevelInitState.activeSelf)
+        {
+            return powerSupplyHint == null ? PowerSupplyLevel : PowerSupplyLevelInitState;
+        }
+
+        if (PowerSupplyLevel.activeSelf || PowerSupplyLevelInitState.activeSelf)
+        {
+            return keyboardHint == null ? KeyboardLevel : KeyboardLevelInitState;
+        }
+
+        if (KeyboardLevel.activeSelf || KeyboardLevelInitState.activeSelf)
+        {
+            return MainBoard;
+        }
+
+        Debug.LogWarning("No valid previous level found!");
         return null;
     }
 }
