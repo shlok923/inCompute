@@ -83,13 +83,18 @@ public class MotherboardLevelManager : MonoBehaviour
         if (cmosBattery.IsObjectPlaced() && !batteryPlaced)
         {
             batteryPlaced = true;
-            //ResetObjectsToOrigin();
+
+            // Reset objects to origin if needed
+            // ResetObjectsToOrigin();
 
             for (int i = 0; i < levelPlacesVisual.Length; i++)
             {
-                levelPlacesVisual[i].GetComponent<Renderer>().material = levelPlacesMaterials[i];
+                Renderer[] childRenderers = levelPlacesVisual[i].GetComponentsInChildren<Renderer>();
+                foreach (Renderer childRenderer in childRenderers)
+                {
+                    childRenderer.material = levelPlacesMaterials[i];
+                }
             }
-
         }
     }
 

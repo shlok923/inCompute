@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   artefactName: Power Supply Hint
   model: {fileID: 0}
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 3b9179ca5ab843047ad99cf4181a923e, type: 3}
+  infoSprite: {fileID: 21300000, guid: 3b9179ca5ab843047ad99cf4181a923e, type: 3}
+  type: 0
