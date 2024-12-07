@@ -7,10 +7,12 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] GameObject buttons;
     [SerializeField] GameObject settingTitle;
     [SerializeField] GameObject audioMixers;
+    [SerializeField] GameObject controls;
 
     public void Start(){
         settingTitle.SetActive(false);
         audioMixers.SetActive(false);
+        controls.SetActive(false);
         title.SetActive(true);
         buttons.SetActive(true);
     }
@@ -19,15 +21,10 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene("GameScene");
     }
 
-    public void ContinueGame(){
-        if (PlayerPrefs.HasKey("LastSavedGame"))
-        {
-            SceneManager.LoadScene("GameScene");
-        }
-        else
-        {
-            SceneManager.LoadScene("GameScene");
-        }
+    public void Instructions(){
+        title.SetActive(false);
+        buttons.SetActive(false);
+        controls.SetActive(true);
     }
 
     public void OpenSettings(){
@@ -40,6 +37,7 @@ public class MainMenuController : MonoBehaviour
     public void OpenMenu(){
         settingTitle.SetActive(false);
         audioMixers.SetActive(false);
+        controls.SetActive(false);
         title.SetActive(true);
         buttons.SetActive(true);
     }
