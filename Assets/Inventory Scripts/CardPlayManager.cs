@@ -22,6 +22,10 @@ public class CardPlayManager : MonoBehaviour {
 
     public MazeGenerator mazeGenerator;
 
+    public DialInteractor[] dialsToCorrect;
+    public LevelChangeLever levelChanger;
+    public GameObject powerSupplyLevel;
+
     private void Awake() {
         holder = GetComponent<CardHolder>();
         player = FindFirstObjectByType<Player>();
@@ -40,6 +44,9 @@ public class CardPlayManager : MonoBehaviour {
             colorCard.SetMirrors(mirrorStateOne, mirrorStateTwo, crystalPlaceholders, GPUManager);
         } else if (cardInHand.behaviour is FreezeBehaviour freezeCard) {
             freezeCard.SetMaze(mazeGenerator);
+        } else if (cardInHand.behaviour is LocksBehaviour locksCard)
+        {
+            locksCard.SetDialsAndLevelChangerAndPSLevel(dialsToCorrect, levelChanger, powerSupplyLevel);
         }
 
         if (!cardInHand.behaviour.canUse()) {

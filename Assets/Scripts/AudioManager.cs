@@ -133,6 +133,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip plugIn;
     public AudioClip powerCharge;
     public AudioClip shutDown;
+    public AudioClip scan;
 
     private string currentLevelName = "main";
     private Coroutine fadeCoroutine;

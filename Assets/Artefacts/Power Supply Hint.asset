@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5a0685dac3429c4db9a905c858eb6eb, type: 3}
   m_Name: Power Supply Hint
   m_EditorClassIdentifier: 
-  artefactName: Power Supply Hint Artefact
+  artefactName: Power Supply Hint
   model: {fileID: 0}
   sprite: {fileID: 0}
+  infoSprite: {fileID: 0}
+  type: 0

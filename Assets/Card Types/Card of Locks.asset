@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Card of Locks
   m_EditorClassIdentifier: 
   title: Card of Locks
-  behaviour: {fileID: 0}
+  behaviour: {fileID: 11400000, guid: 15ae37d709b9abf4a9f4c25fbf9499b1, type: 2}
   sprite: {fileID: 21300000, guid: fe1316bfaeaf84e46815b3fc19110329, type: 3}
   infoCard: {fileID: 21300000, guid: a4cad1a5449bb1f43975b664d19682ef, type: 3}

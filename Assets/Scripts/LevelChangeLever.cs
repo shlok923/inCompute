@@ -93,24 +93,30 @@ public class LevelChangeLever : Interactable
 
         if (currentLevelStartPosition != Vector3.zero) Debug.Log("Current level position not origin: " + currentLevelStartPosition);
 
-
         nextLevel.SetActive(true);
+        if (currentLevel == KeyboardLevel)
+        {
+            mazeGenerator.DespawnLevel();
+            mazeGenerator.gameObject.SetActive(false);
+        }
 
         float elapsedTime = 0f;
 
-        // lift levels
+        // lift levels with acceleration
         while (elapsedTime < liftTime)
         {
             float t = elapsedTime / liftTime;
+            float acceleratedT = Mathf.Pow(t, 2); // Accelerate at the start
+
             if (toRight)
             {
-                currentLevel.transform.localPosition = Vector3.Lerp(currentLevelStartPosition, liftPosition, t);
-                nextLevel.transform.localPosition = Vector3.Lerp(rightDownPosition, rightUpPosition, t);
+                currentLevel.transform.localPosition = Vector3.Lerp(currentLevelStartPosition, liftPosition, acceleratedT);
+                nextLevel.transform.localPosition = Vector3.Lerp(rightDownPosition, rightUpPosition, acceleratedT);
             }
             else
             {
-                currentLevel.transform.localPosition = Vector3.Lerp(currentLevelStartPosition, liftPosition, t);
-                nextLevel.transform.localPosition = Vector3.Lerp(leftDownPosition, leftUpPosition, t);
+                currentLevel.transform.localPosition = Vector3.Lerp(currentLevelStartPosition, liftPosition, acceleratedT);
+                nextLevel.transform.localPosition = Vector3.Lerp(leftDownPosition, leftUpPosition, acceleratedT);
             }
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -118,18 +124,21 @@ public class LevelChangeLever : Interactable
 
         elapsedTime = 0f;
 
+        // shift levels with acceleration
         while (elapsedTime < shiftTime)
         {
             float t = elapsedTime / shiftTime;
+            float acceleratedT = Mathf.Pow(t, 2); // Accelerate at the start
+
             if (toRight)
             {
-                currentLevel.transform.localPosition = Vector3.Lerp(liftPosition, leftUpPosition, t);
-                nextLevel.transform.localPosition = Vector3.Lerp(rightUpPosition, liftPosition, t);
+                currentLevel.transform.localPosition = Vector3.Lerp(liftPosition, leftUpPosition, acceleratedT);
+                nextLevel.transform.localPosition = Vector3.Lerp(rightUpPosition, liftPosition, acceleratedT);
             }
             else
             {
-                currentLevel.transform.localPosition = Vector3.Lerp(liftPosition, rightUpPosition, t);
-                nextLevel.transform.localPosition = Vector3.Lerp(leftUpPosition, liftPosition, t);
+                currentLevel.transform.localPosition = Vector3.Lerp(liftPosition, rightUpPosition, acceleratedT);
+                nextLevel.transform.localPosition = Vector3.Lerp(leftUpPosition, liftPosition, acceleratedT);
             }
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -137,20 +146,21 @@ public class LevelChangeLever : Interactable
 
         elapsedTime = 0f;
 
-        // land levels
-
+        // land levels with deceleration
         while (elapsedTime < landTime)
         {
             float t = elapsedTime / landTime;
+            float deceleratedT = Mathf.Pow(t, 0.5f); // Decelerate towards the end
+
             if (toRight)
             {
-                currentLevel.transform.localPosition = Vector3.Lerp(leftUpPosition, leftDownPosition, t);
-                nextLevel.transform.localPosition = Vector3.Lerp(liftPosition, Vector3.zero, t);
+                currentLevel.transform.localPosition = Vector3.Lerp(leftUpPosition, leftDownPosition, deceleratedT);
+                nextLevel.transform.localPosition = Vector3.Lerp(liftPosition, Vector3.zero, deceleratedT);
             }
             else
             {
-                currentLevel.transform.localPosition = Vector3.Lerp(rightUpPosition, rightDownPosition, t);
-                nextLevel.transform.localPosition = Vector3.Lerp(liftPosition, Vector3.zero, t);
+                currentLevel.transform.localPosition = Vector3.Lerp(rightUpPosition, rightDownPosition, deceleratedT);
+                nextLevel.transform.localPosition = Vector3.Lerp(liftPosition, Vector3.zero, deceleratedT);
             }
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -167,8 +177,17 @@ public class LevelChangeLever : Interactable
             currentLevel.transform.localPosition = rightDownPosition;
             nextLevel.transform.localPosition = Vector3.zero;
         }
-        //currentLevel.transform.position = currentLevelEndPosition;
-        //nextLevel.transform.position = nextLevelEndPosition;
+
+        if (nextLevel == KeyboardLevel)
+        {
+            mazeGenerator.gameObject.SetActive(true);
+            mazeGenerator.RespawnLevel();
+        }
+        else if (currentLevel == KeyboardLevel)
+        {
+            mazeGenerator.DespawnLevel();
+            mazeGenerator.gameObject.SetActive(false);
+        }
 
         // Deactivate previous level
         currentLevel.SetActive(false);
@@ -234,7 +253,7 @@ public class LevelChangeLever : Interactable
         }
     }
 
-    private GameObject GetCurrentLevel()
+    public GameObject GetCurrentLevel()
     {
         if (MainBoard.activeSelf) return MainBoard;
         if (KeyboardLevel.activeSelf) return KeyboardLevel;

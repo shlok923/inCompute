@@ -21,7 +21,7 @@ public class Mirror : Interactable
 
     private void Start()
     {
-        initialPosition = transform.position;
+        initialPosition = transform.localPosition;
         targetPosition = initialPosition;
 
         // Ensure the mirror has a collider for laser interaction
@@ -31,7 +31,7 @@ public class Mirror : Interactable
             collider.isTrigger = false; // Ensure the collider is not a trigger
         }
 
-        targetRotation = transform.rotation; // Set the initial target rotation
+        targetRotation = transform.localRotation; // Set the initial target rotation
     }
 
     private void Update()
@@ -40,12 +40,12 @@ public class Mirror : Interactable
         // Smoothly move the mirror up and down
         if (isMoving)
         {
-            transform.position = Vector3.Lerp(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, moveSpeed * Time.deltaTime);
 
             // Stop movement once close enough to the target
-            if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+            if (Vector3.Distance(transform.localPosition, targetPosition) < 0.01f)
             {
-                transform.position = targetPosition;
+                transform.localPosition = targetPosition;
                 isMoving = false;
             }
         }
@@ -53,12 +53,12 @@ public class Mirror : Interactable
         // Smoothly rotate the mirror between CardStates
         if (isRotating)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, moveSpeed * Time.deltaTime);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, moveSpeed * Time.deltaTime);
 
             // Stop rotation once close enough to the target rotation
-            if (Quaternion.Angle(transform.rotation, targetRotation) < 0.01f)
+            if (Quaternion.Angle(transform.localRotation, targetRotation) < 0.01f)
             {
-                transform.rotation = targetRotation;
+                transform.localRotation = targetRotation;
                 isRotating = false;
             }
         }

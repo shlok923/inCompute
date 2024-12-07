@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5a0685dac3429c4db9a905c858eb6eb, type: 3}
   m_Name: RAM
   m_EditorClassIdentifier: 
-  artefactName: RAM Card Artefact
+  artefactName: RAM Card
   model: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
   sprite: {fileID: 21300000, guid: a0cca3c1b473a7f45ab52be42092293d, type: 3}
+  infoSprite: {fileID: 0}
+  type: 1

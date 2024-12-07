@@ -15,3 +15,5 @@ MonoBehaviour:
   artefactName: GPU Level File
   model: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
   sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  infoSprite: {fileID: 0}
+  type: 1

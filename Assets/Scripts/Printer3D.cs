@@ -31,9 +31,10 @@ public class Printer3D : Interactable
         foreach(PickupObjects pickupObject in pickupObjects)
         {
             if (pickupObject == null) continue;
-            if (pickupObject.artefact.artefact.artefactName == slot.artefact.artefactName + " Artefact")
+            if ("Broken " + pickupObject.artefact.artefact.name == slot.artefact.artefactName)
             {
                 Debug.Log("Blueprint found");
+
 
                 ArtefactInInventory(pickupObject);
                 slot.RemoveFromSlot();
@@ -41,6 +42,11 @@ public class Printer3D : Interactable
                 //pickupObject.gameObject.SetActive(true);
                 //objectMade = true;
                 return;
+            }
+            else
+            {
+                Debug.Log("Wanted " + "Broken " + pickupObject.artefact.artefact.name + "but got " + slot.artefact.name);
+
             }
         }
         //if (slot.artefact == artefactForSlot)

@@ -80,6 +80,31 @@ public class DialInteractor : Interactable {
         beingTurned = false;
     }
 
+    public void TurnDialMultipleTimes(int numberOfTurns)
+    {
+        if (!beingTurned) // Ensure the dial is not already being turned
+        {
+            StartCoroutine(TurnDialCoroutine(numberOfTurns));
+        }
+    }
+
+    private IEnumerator TurnDialCoroutine(int numberOfTurns)
+    {
+        for (int i = 0; i < numberOfTurns; i++)
+        {
+            turnEndAngle = (currentAngle - turnAngle) % 360;
+            beingTurned = true;
+            powerSupplyManager.OnDialConfigurationChanged(this);
+
+            elapsedTime = 0f;
+
+            while (beingTurned) // Wait for the current turn to complete
+            {
+                yield return null;
+            }
+        }
+    }
+
 
     public bool hasCorrectConfiguration() {
         return currentAngle == -targetAngle;

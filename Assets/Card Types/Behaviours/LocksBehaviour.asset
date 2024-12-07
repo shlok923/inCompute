@@ -9,11 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5a0685dac3429c4db9a905c858eb6eb, type: 3}
-  m_Name: OLD Keyboard Hint
+  m_Script: {fileID: 11500000, guid: e1e7e137bd069544ab667b01c81c7580, type: 3}
+  m_Name: LocksBehaviour
   m_EditorClassIdentifier: 
-  artefactName: Keyboard Hint
-  model: {fileID: 0}
-  sprite: {fileID: 0}
-  infoSprite: {fileID: 0}
-  type: 0
