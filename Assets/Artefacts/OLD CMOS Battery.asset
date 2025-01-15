@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   artefactName: Broken CMOS Battery
   model: {fileID: -7131583150555198411, guid: d60d3f52a532e4db4ae46d215511223c, type: 3}
-  sprite: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  infoSprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 9a8b2434961f3fe44b34b9ec1b0dbfec, type: 3}
+  infoSprite: {fileID: 21300000, guid: 9a8b2434961f3fe44b34b9ec1b0dbfec, type: 3}
   type: 2

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   artefactName: Power Supply Level File
   model: {fileID: -5429438084546490799, guid: 063e56950cdf24b4f8423c464ebddede, type: 3}
-  sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  infoSprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 21ea395d9884e30478fce5b66a79a2f6, type: 3}
+  infoSprite: {fileID: 21300000, guid: 21ea395d9884e30478fce5b66a79a2f6, type: 3}
   type: 1

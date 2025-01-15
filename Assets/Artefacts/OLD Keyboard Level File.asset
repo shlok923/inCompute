@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   artefactName: Keyboard Level File
   model: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-  sprite: {fileID: 21300000, guid: 58405fbc1726e60448b0392b82a24d5e, type: 3}
-  infoSprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 34369bc31eac69f4d87bf8e4fe6af53f, type: 3}
+  infoSprite: {fileID: 21300000, guid: 34369bc31eac69f4d87bf8e4fe6af53f, type: 3}
   type: 1
