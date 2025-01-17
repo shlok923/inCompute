@@ -10,11 +10,24 @@ public class Printer3D : Interactable
     [SerializeField] private PickupObjects[] pickupObjects;
     private PickupObjects currentArtefact;
     private bool objectMade = false;
+    [SerializeField] private new string hoverUIMessage = "Printer foudn";
 
     public override void Interact(Player player)
     {
         base.Interact(player);
         MakeArtefact();
+    }
+
+    public override void ShowMessageHoverUI(string hoverUIMessage)
+    {
+        base.ShowMessageHoverUI(hoverUIMessage);
+        UIManager.Instance.ShowHoverUI(hoverUIMessage);
+    }
+
+    public override void HideMessageHoverUI()
+    {
+        base.HideMessageHoverUI();
+        UIManager.Instance.HideHoverUI();
     }
 
     private void MakeArtefact()

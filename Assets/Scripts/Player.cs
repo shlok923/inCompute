@@ -22,12 +22,6 @@ public class Player : MonoBehaviour, IObjectParent
     }
     // ---- pattern
 
-    //public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
-    //public class OnSelectedCounterChangedEventArgs : EventArgs
-    //{
-    //    public BaseCounter selectedCounter;
-    //}
-
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private GameInput gameInput;
     [SerializeField] Transform objectHoldPoint;
@@ -37,12 +31,11 @@ public class Player : MonoBehaviour, IObjectParent
     private bool isWalking;
     private Vector3 lastInteractDir;
     private Interactable interactableObject;
+    private Interactable lastInteractableObject;
     [SerializeField] private PickupObject heldObject;
     [SerializeField] private HeldInventoy heldInventory;
     [SerializeField] private ArtefactInfo artefactInfo;
     [SerializeField] private GameObject interactCanvas;
-
-    //private KitchenObject kitchenObject;
 
     private void Awake()
     {
@@ -124,12 +117,13 @@ public class Player : MonoBehaviour, IObjectParent
 
 
         float interactDistance = 2f;
-        Debug.DrawRay(transform.position, transform.forward * 2, Color.red, 0.1f);
+        //Debug.DrawRay(transform.position, transform.forward * 2, Color.red, 0.1f);
         if (Physics.Raycast(transform.position + rayOffset, transform.forward * 2 + rayOffset, out RaycastHit raycastHit, interactDistance))
         {
             if (raycastHit.transform.TryGetComponent(out Interactable interactable))
             {
                 interactableObject = interactable;
+                interactableObject.ShowMessageHoverUI(interactableObject.hoverUIMessage);
                 Debug.Log("interactable object found");
                 if (interactableObject is CardPickup cardPickup) {
                     cardPickup.PeekCard();
@@ -142,6 +136,8 @@ public class Player : MonoBehaviour, IObjectParent
                     cardPickup.UnpeekCard();
                     cardPickup.beingPeeked = false;
                 }
+
+                interactableObject.HideMessageHoverUI();
                 interactableObject = null;
                 //Debug.Log("no interactable object found");
             }
@@ -152,6 +148,7 @@ public class Player : MonoBehaviour, IObjectParent
                 cardPickup.UnpeekCard();
                 cardPickup.beingPeeked = false;
             }
+            interactableObject.HideMessageHoverUI();
             interactableObject = null;
             //Debug.Log("no interactable object found");
         }

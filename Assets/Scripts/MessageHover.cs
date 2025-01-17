@@ -10,6 +10,7 @@ public class MessageHover : MonoBehaviour
     [SerializeField] private string inputText;
     public static bool IsTriggered = false;
 
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -33,6 +34,31 @@ public class MessageHover : MonoBehaviour
         {
             Color currentColor = textMeshPro.color;
             textMeshPro.color = new Color(currentColor.r, currentColor.g, currentColor.b, alpha);
+        }
+    }
+
+    public void ShowHoverText(string text)
+    {
+        if (textMeshPro != null)
+        {
+            textMeshPro.text = text;
+        }
+
+        IsTriggered = true;
+        animator.SetBool("IsTriggered", IsTriggered);
+
+    }
+
+    public void HideHoverText()
+    {
+        if (IsTriggered)
+        {
+            IsTriggered = false;
+            animator.SetBool("IsTriggered", IsTriggered);
+        }
+        else
+        {
+            Debug.Log("Hover text already hidden");
         }
     }
 }
