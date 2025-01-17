@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private MessageHover messageHoverUI;
+    [SerializeField] private MessageHoverNew messageHoverUI;
     // singleton instance
     public static UIManager Instance { get; private set; }
 

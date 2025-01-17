@@ -122,9 +122,24 @@ public class Player : MonoBehaviour, IObjectParent
         {
             if (raycastHit.transform.TryGetComponent(out Interactable interactable))
             {
-                interactableObject = interactable;
-                interactableObject.ShowMessageHoverUI(interactableObject.hoverUIMessage);
-                Debug.Log("interactable object found");
+                // If new interactable detected or coming back to the same object
+                if (interactableObject != interactable)
+                {
+                    // Hide the hover UI of the previous object
+                    if (interactableObject != null)
+                    {
+                        interactableObject.HideMessageHoverUI();
+                    }
+
+                    // Update the interactable reference
+                    interactableObject = interactable;
+
+                    // Show hover UI for the new object
+                    Debug.Log("making show ui call");
+                    interactableObject.ShowMessageHoverUI(interactableObject.hoverUIMessage);
+
+                    Debug.Log("Interactable object found");
+                }
                 if (interactableObject is CardPickup cardPickup) {
                     cardPickup.PeekCard();
                     cardPickup.beingPeeked = true;
@@ -132,13 +147,17 @@ public class Player : MonoBehaviour, IObjectParent
             }
             else
             {
+                if (interactableObject != null)
+                {
+                    Debug.Log("making hide ui call");
+                    interactableObject.HideMessageHoverUI();
+                    interactableObject = null;
+                }
+
                 if (interactableObject is CardPickup cardPickup) {
                     cardPickup.UnpeekCard();
                     cardPickup.beingPeeked = false;
                 }
-
-                interactableObject.HideMessageHoverUI();
-                interactableObject = null;
                 //Debug.Log("no interactable object found");
             }
         }
@@ -148,8 +167,13 @@ public class Player : MonoBehaviour, IObjectParent
                 cardPickup.UnpeekCard();
                 cardPickup.beingPeeked = false;
             }
-            interactableObject.HideMessageHoverUI();
-            interactableObject = null;
+
+            if (interactableObject != null)
+            {
+                Debug.Log("making hide ui call");
+                interactableObject.HideMessageHoverUI();
+                interactableObject = null;
+            }
             //Debug.Log("no interactable object found");
         }
     }

@@ -1147,7 +1147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 808419943}
-  slideDuration: 0.5
+  slideDuration: 0.7
 --- !u!4 &1436581199
 Transform:
   m_ObjectHideFlags: 0

@@ -12,9 +12,21 @@ public class MessageHoverNew : MonoBehaviour
     private Vector2 targetPosition = new Vector2(20, -20);
     private Vector2 positionBeforeSlide;
     RectTransform rectTransform;
+    public bool isHovering = false;
 
-    public void ShowHoverText(string text, Color backgroundColor)
+    public void ShowHoverText(string text, Color backgroundColor = default)
     {
+        if (canvas == null)
+        {
+            Debug.LogError("Canvas is not assigned. Please assign the canvas in the Inspector.");
+            return;
+        }
+
+        if (backgroundColor == default)
+        {
+            backgroundColor = Color.black;
+        }
+
         // Create the Background Panel
         GameObject background = new GameObject("Background");
         background.transform.SetParent(canvas.transform, false);
@@ -49,7 +61,7 @@ public class MessageHoverNew : MonoBehaviour
         tmpText.text = text;
         tmpText.fontSize = 40; // Adjust font size as needed
         tmpText.alignment = TextAlignmentOptions.Center;
-        tmpText.color = Color.black;
+        tmpText.color = Color.white;
 
         // TMP RectTransform for Layout
         RectTransform textRect = textObject.GetComponent<RectTransform>();
@@ -69,6 +81,16 @@ public class MessageHoverNew : MonoBehaviour
     private IEnumerator SlideInAnimation(RectTransform rectTransform, Vector2 startPosition, Vector2 targetPosition)
     {
         float elapsedTime = 0f;
+        if (rectTransform == null)
+        {
+            Debug.LogWarning("No hover text to slide in");
+            yield break;
+        }
+        if (isHovering)
+        {
+            Debug.LogWarning("Hover text already showing");
+            yield break;
+        }
 
         while (elapsedTime < slideDuration)
         {
@@ -93,8 +115,8 @@ public class MessageHoverNew : MonoBehaviour
             return;
         }
         // Start the slide-out animation
-        StartCoroutine(SlideOutAnimation());
-        Destroy(rectTransform.gameObject, slideDuration);
+        if (isHovering) StartCoroutine(SlideOutAnimation());
+        isHovering = false;
     }
 
     private IEnumerator SlideOutAnimation()
@@ -103,6 +125,10 @@ public class MessageHoverNew : MonoBehaviour
 
         while (elapsedTime < slideDuration)
         {
+            // Check if the object is still valid
+            if (rectTransform == null)
+                yield break;
+
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / slideDuration);
 
@@ -112,7 +138,11 @@ public class MessageHoverNew : MonoBehaviour
             yield return null;
         }
 
-        // Ensure final position is exact
-        rectTransform.anchoredPosition = positionBeforeSlide;
+        // Ensure the final position is exact
+        if (rectTransform != null)
+        {
+            rectTransform.anchoredPosition = positionBeforeSlide;
+            Destroy(rectTransform.gameObject); // Destroy only after animation completes
+        }
     }
 }
