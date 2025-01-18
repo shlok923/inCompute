@@ -16,6 +16,18 @@ public class PlaceObjects : Interactable
         PlaceObject();
     }
 
+    public override void ShowMessageHoverUI(string hoverUIMessage)
+    {
+        base.ShowMessageHoverUI(hoverUIMessage);
+        UIManager.Instance.ShowHoverUI(hoverUIMessage);
+    }
+
+    public override void HideMessageHoverUI()
+    {
+        base.HideMessageHoverUI();
+        UIManager.Instance.HideHoverUI();
+    }
+
     private void PlaceObject()
     {
         if (objectPlaced)

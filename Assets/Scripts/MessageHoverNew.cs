@@ -5,16 +5,24 @@ using System.Collections;
 
 public class MessageHoverNew : MonoBehaviour
 {
-    public Canvas canvas; // Assign your canvas in the Inspector
-    public float slideDuration = 0.5f; // Duration of the slide-in animation
+    public Canvas canvas;
+    public float slideDuration = 0.5f;
 
     private Vector2 startPosition = new Vector2(-500, -500);
     private Vector2 targetPosition = new Vector2(20, -20);
     private Vector2 positionBeforeSlide;
-    RectTransform rectTransform;
-    public bool isHovering = false;
+    private RectTransform rectTransform;
+    private TextMeshProUGUI tmpText;
+    private Coroutine currentCoroutine; // Track the currently running coroutine
+    [SerializeField] private int hoverTextSize = 40;
+    [SerializeField] private TMP_FontAsset customFont;
 
-    public void ShowHoverText(string text, Color backgroundColor = default)
+    private void Awake()
+    {
+        CreateHoverUI();
+    }
+
+    private void CreateHoverUI()
     {
         if (canvas == null)
         {
@@ -22,32 +30,26 @@ public class MessageHoverNew : MonoBehaviour
             return;
         }
 
-        if (backgroundColor == default)
-        {
-            backgroundColor = Color.black;
-        }
-
         // Create the Background Panel
         GameObject background = new GameObject("Background");
         background.transform.SetParent(canvas.transform, false);
 
-        RectTransform bgRect = background.AddComponent<RectTransform>();
-        rectTransform = bgRect;
-        bgRect.anchorMin = new Vector2(0, 1); // Anchor to top-left
-        bgRect.anchorMax = new Vector2(0, 1);
-        bgRect.pivot = new Vector2(0, 1); // Pivot at top-left
-        bgRect.anchoredPosition = startPosition; // Start off-screen or elsewhere
+        rectTransform = background.AddComponent<RectTransform>();
+        rectTransform.anchorMin = new Vector2(0, 1);
+        rectTransform.anchorMax = new Vector2(0, 1);
+        rectTransform.pivot = new Vector2(0, 1);
+        rectTransform.anchoredPosition = startPosition;
 
-        // Add Image Component for the Background
+        // Add Image Component
         Image bgImage = background.AddComponent<Image>();
-        bgImage.color = backgroundColor;
+        bgImage.color = Color.black;
 
         // Add Content Size Fitter
         ContentSizeFitter contentFitter = background.AddComponent<ContentSizeFitter>();
         contentFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
         contentFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
-        // Add Layout Group to Handle Child Alignment
+        // Add Layout Group
         VerticalLayoutGroup layoutGroup = background.AddComponent<VerticalLayoutGroup>();
         layoutGroup.childAlignment = TextAnchor.MiddleCenter;
         layoutGroup.childForceExpandWidth = false;
@@ -57,92 +59,116 @@ public class MessageHoverNew : MonoBehaviour
         GameObject textObject = new GameObject("Text");
         textObject.transform.SetParent(background.transform, false);
 
-        TextMeshProUGUI tmpText = textObject.AddComponent<TextMeshProUGUI>();
-        tmpText.text = text;
-        tmpText.fontSize = 40; // Adjust font size as needed
+        tmpText = textObject.AddComponent<TextMeshProUGUI>();
+        tmpText.fontSize = hoverTextSize;
         tmpText.alignment = TextAlignmentOptions.Center;
         tmpText.color = Color.white;
 
-        // TMP RectTransform for Layout
+        // Assign custom font here
+        if (customFont != null)
+        {
+            tmpText.font = customFont;
+        }
+
         RectTransform textRect = textObject.GetComponent<RectTransform>();
-        textRect.sizeDelta = Vector2.zero; // Let the layout system manage size
+        textRect.sizeDelta = Vector2.zero;
 
-        // Force Layout Rebuild to Update Sizes
-        LayoutRebuilder.ForceRebuildLayoutImmediate(bgRect);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
 
-        positionBeforeSlide = new Vector2(-bgRect.rect.width - 100, -20);
+        Debug.Log("it is width " +rectTransform.rect.width);
+        positionBeforeSlide = new Vector2(-rectTransform.rect.width - 100, -20);
+        rectTransform.anchoredPosition = positionBeforeSlide;
 
-        bgRect.anchoredPosition = positionBeforeSlide;
-
-        // Start the slide-in animation
-        StartCoroutine(SlideInAnimation(bgRect, positionBeforeSlide, targetPosition));
+        background.SetActive(false); // Hide by default
     }
 
-    private IEnumerator SlideInAnimation(RectTransform rectTransform, Vector2 startPosition, Vector2 targetPosition)
+    public void ShowHoverText(string text, Color backgroundColor = default)
     {
-        float elapsedTime = 0f;
-        if (rectTransform == null)
+        if (rectTransform == null || tmpText == null)
         {
-            Debug.LogWarning("No hover text to slide in");
-            yield break;
-        }
-        if (isHovering)
-        {
-            Debug.LogWarning("Hover text already showing");
-            yield break;
+            Debug.LogError("Hover UI components are not initialized.");
+            return;
         }
 
+        if (backgroundColor == default)
+        {
+            backgroundColor = Color.black;
+        }
+
+        tmpText.text = text;
+        rectTransform.GetComponent<Image>().color = backgroundColor;
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+        positionBeforeSlide = new Vector2(-rectTransform.rect.width - 50, -20);
+
+        rectTransform.gameObject.SetActive(true); // Ensure the UI is visible
+
+        if (currentCoroutine != null)
+        {
+            StopCoroutine(currentCoroutine); // Stop any ongoing animation
+        }
+
+        currentCoroutine = StartCoroutine(ShowHoverTextDelayed());
+    }
+
+    private IEnumerator ShowHoverTextDelayed()
+    {
+        yield return null; // Wait for one frame to ensure layout updates
+
+        positionBeforeSlide = new Vector2(-rectTransform.rect.width - 50, -20);
+
+        rectTransform.anchoredPosition = positionBeforeSlide;
+        rectTransform.gameObject.SetActive(true); // Ensure the UI is visible
+
+        currentCoroutine = StartCoroutine(SlideInAnimation());
+    }
+
+    private IEnumerator SlideInAnimation()
+    {
+        float elapsedTime = 0f;
         while (elapsedTime < slideDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / slideDuration);
-
-            // Smoothly interpolate the position
-            rectTransform.anchoredPosition = Vector2.Lerp(startPosition, targetPosition, t);
-
+            rectTransform.anchoredPosition = Vector2.Lerp(positionBeforeSlide, targetPosition, t);
             yield return null;
         }
 
-        // Ensure final position is exact
         rectTransform.anchoredPosition = targetPosition;
+        currentCoroutine = null;
     }
 
     public void HideHoverText()
     {
         if (rectTransform == null)
         {
-            Debug.LogWarning("No hover text to hide");
+            Debug.LogWarning("No hover text to hide.");
             return;
         }
-        // Start the slide-out animation
-        if (isHovering) StartCoroutine(SlideOutAnimation());
-        isHovering = false;
+
+        if (currentCoroutine != null)
+        {
+            StopCoroutine(currentCoroutine); // Stop any ongoing animation
+        }
+
+        currentCoroutine = StartCoroutine(SlideOutAnimation());
     }
 
     private IEnumerator SlideOutAnimation()
     {
-        float elapsedTime = 0f;
+        Vector2 currentPosition = rectTransform.anchoredPosition;
 
+        float elapsedTime = 0f;
         while (elapsedTime < slideDuration)
         {
-            // Check if the object is still valid
-            if (rectTransform == null)
-                yield break;
-
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / slideDuration);
-
-            // Smoothly interpolate the position
-            rectTransform.anchoredPosition = Vector2.Lerp(targetPosition, positionBeforeSlide, t);
-
+            rectTransform.anchoredPosition = Vector2.Lerp(currentPosition, positionBeforeSlide, t);
             yield return null;
         }
 
-        // Ensure the final position is exact
-        if (rectTransform != null)
-        {
-            rectTransform.anchoredPosition = positionBeforeSlide;
-            Destroy(rectTransform.gameObject); // Destroy only after animation completes
-        }
+        rectTransform.anchoredPosition = positionBeforeSlide;
+        rectTransform.gameObject.SetActive(false); // Hide the UI after animation
+        currentCoroutine = null;
     }
 }

@@ -1451,7 +1451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: insert motherboard\nfile here
   artefactForSlot: {fileID: 11400000, guid: 5f46546f58b905545b7b3c6064f4d704, type: 2}
   inventoryManager: {fileID: 653192042}
   artefactObject: {fileID: 1673463469}
@@ -11408,8 +11408,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1122685070}
-  slideDuration: 0.5
-  isHovering: 0
+  slideDuration: 0.4
+  hoverTextSize: 20
+  customFont: {fileID: 11400000, guid: 054c103b2914be84ca160c80a4955655, type: 2}
 --- !u!4 &591811842
 Transform:
   m_ObjectHideFlags: 0
@@ -15284,7 +15285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: printer
-  hoverUIMessage: Printer foudn
+  hoverUIMessage: 3D Printer
   inventoryManager: {fileID: 653192042}
   heldInventoy: {fileID: 1252080974}
   pickupObjects:
