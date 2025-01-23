@@ -30,6 +30,18 @@ public class PickupObjects : Interactable
         else Debug.Log("Player not found");
     }
 
+    public override void ShowMessageHoverUI(string hoverUIMessage)
+    {
+        base.ShowMessageHoverUI(hoverUIMessage);
+        UIManager.Instance.ShowHoverUI(hoverUIMessage);
+    }
+
+    public override void HideMessageHoverUI()
+    {
+        base.HideMessageHoverUI();
+        UIManager.Instance.HideHoverUI();
+    }
+
     public bool PickUp()
     {
         if (inventoryManager.PickupArtefact(artefact.gameObject))

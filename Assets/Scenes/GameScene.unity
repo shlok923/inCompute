@@ -1451,7 +1451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: insert motherboard\nfile here
+  hoverUIMessage: 
   artefactForSlot: {fileID: 11400000, guid: 5f46546f58b905545b7b3c6064f4d704, type: 2}
   inventoryManager: {fileID: 653192042}
   artefactObject: {fileID: 1673463469}
@@ -5371,7 +5371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: Hint
   artefact: {fileID: 2079882153}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 0}
@@ -6378,7 +6378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: CMOS Battery Artefact
   artefact: {fileID: 386273440}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 0}
@@ -8755,6 +8755,10 @@ PrefabInstance:
       value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 8291923040803286426, guid: ab8c99f7edee18545bc46c226e307638, type: 3}
+      propertyPath: hoverUIMessage
+      value: Power Dial
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291923040803286426, guid: ab8c99f7edee18545bc46c226e307638, type: 3}
       propertyPath: powerSupplyManager
       value: 
       objectReference: {fileID: 1818357992}
@@ -8861,7 +8865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: Keyboard File
   artefact: {fileID: 1574058285}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 0}
@@ -9613,6 +9617,10 @@ PrefabInstance:
     - target: {fileID: 8291923040803286426, guid: ab8c99f7edee18545bc46c226e307638, type: 3}
       propertyPath: targetAngle
       value: 135
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291923040803286426, guid: ab8c99f7edee18545bc46c226e307638, type: 3}
+      propertyPath: hoverUIMessage
+      value: Power Dial
       objectReference: {fileID: 0}
     - target: {fileID: 8291923040803286426, guid: ab8c99f7edee18545bc46c226e307638, type: 3}
       propertyPath: powerSupplyManager
@@ -15294,7 +15302,7 @@ MonoBehaviour:
   - {fileID: 1816192535}
   - {fileID: 1832708832}
   - {fileID: 1577338382}
-  hoverUIMessage: Printer foudn
+  hoverUIMessage: 3D Printer
 --- !u!65 &750044745
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15798,7 +15806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: A battery could fit...
   artefactForSlot: {fileID: 11400000, guid: 4a402f8aeaec8fb4d885668592a48d42, type: 2}
   inventoryManager: {fileID: 653192042}
   artefactObject: {fileID: 1327707510}
@@ -16322,7 +16330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: RAM Stick Artefact
   artefact: {fileID: 1595419536}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 730437091}
@@ -16548,7 +16556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: Pickup Card
   holder: {fileID: 667147105}
   cardStored: {fileID: 11400000, guid: 61bb13049f57ff548957d1e3ebecb2ce, type: 2}
   peekPlaceholder: {fileID: 1912523523}
@@ -16947,7 +16955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: RAM Slot
   artefactForSlot: {fileID: 11400000, guid: 84b5830d4c44b3c41981cd143b6ab52d, type: 2}
   inventoryManager: {fileID: 653192042}
   artefactObject: {fileID: 1254701547}
@@ -17074,7 +17082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: GPU Crystal Artefact
   artefact: {fileID: 9325327}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 0}
@@ -17999,7 +18007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: Something could\n be placed here
   artefactForSlot: {fileID: 11400000, guid: d26c1b710bbb9c9469e5f27f576d0cbc, type: 2}
   inventoryManager: {fileID: 653192042}
   artefactObject: {fileID: 1439718072}
@@ -19103,7 +19111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: Pickup Card
   holder: {fileID: 667147105}
   cardStored: {fileID: 11400000, guid: e0e0cafb9b043ca40870facf186b687f, type: 2}
   peekPlaceholder: {fileID: 1636804223}
@@ -20161,7 +20169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: GPU Crystal Artefact
   artefact: {fileID: 1783016438}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 0}
@@ -22289,7 +22297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: Something could\n be placed here
   artefactForSlot: {fileID: 11400000, guid: d26c1b710bbb9c9469e5f27f576d0cbc, type: 2}
   inventoryManager: {fileID: 653192042}
   artefactObject: {fileID: 1602445726}
@@ -22396,7 +22404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: GPU Crystal Artefact
   artefact: {fileID: 146699542}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 0}
@@ -26891,7 +26899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: Power Supply File
   artefact: {fileID: 413320901}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 0}
@@ -28548,7 +28556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: Something could\n be placed here
   artefactForSlot: {fileID: 11400000, guid: d26c1b710bbb9c9469e5f27f576d0cbc, type: 2}
   inventoryManager: {fileID: 653192042}
   artefactObject: {fileID: 163792893}
@@ -33314,6 +33322,10 @@ PrefabInstance:
       value: 315
       objectReference: {fileID: 0}
     - target: {fileID: 8291923040803286426, guid: ab8c99f7edee18545bc46c226e307638, type: 3}
+      propertyPath: hoverUIMessage
+      value: Power Dial
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291923040803286426, guid: ab8c99f7edee18545bc46c226e307638, type: 3}
       propertyPath: powerSupplyManager
       value: 
       objectReference: {fileID: 1818357992}
@@ -36052,7 +36064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: GPU File
   artefact: {fileID: 941304012}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 0}
@@ -39861,7 +39873,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: Hint
   artefact: {fileID: 161287742}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 0}
@@ -40232,6 +40244,10 @@ PrefabInstance:
       value: 225
       objectReference: {fileID: 0}
     - target: {fileID: 8291923040803286426, guid: ab8c99f7edee18545bc46c226e307638, type: 3}
+      propertyPath: hoverUIMessage
+      value: Power Dial
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291923040803286426, guid: ab8c99f7edee18545bc46c226e307638, type: 3}
       propertyPath: powerSupplyManager
       value: 
       objectReference: {fileID: 1818357992}
@@ -40441,7 +40457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: Hint
   artefact: {fileID: 896295346}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 0}
@@ -41323,7 +41339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactableName: 
-  hoverUIMessage: 
+  hoverUIMessage: Moterboard files
   artefact: {fileID: 1854210582}
   inventoryManager: {fileID: 653192042}
   playerInScene: {fileID: 0}
@@ -42999,6 +43015,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1249226463}
     m_Modifications:
+    - target: {fileID: 2953767322928017249, guid: 8a2c0cb93ebd2ff46a3f9f5cbc4b4c25, type: 3}
+      propertyPath: hoverUIMessage
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3244024224416428540, guid: 8a2c0cb93ebd2ff46a3f9f5cbc4b4c25, type: 3}
       propertyPath: m_Name
       value: Mirror Thing
