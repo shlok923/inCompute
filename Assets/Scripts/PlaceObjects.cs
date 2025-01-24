@@ -40,6 +40,7 @@ public class PlaceObjects : Interactable
         SlotManager slot = heldInventoy.slot;
         Debug.Log(slot.artefact);
 
+        // place object if held object supposed to be here
         if (slot.artefact == artefactForSlot)
         {
             Debug.Log("Object found");

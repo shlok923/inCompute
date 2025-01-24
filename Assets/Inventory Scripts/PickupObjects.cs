@@ -76,15 +76,16 @@ public class PickupObjects : Interactable
         Debug.Log("Performing scanning animation");
         if (scannerObject == null) yield break;
 
-        // Perform the scanning animation
+        // scanning animation
         yield return StartCoroutine(PerformScanningAnimation());
 
         AudioManager.Instance.PlaySFX(AudioManager.Instance.itemEquip);
-        // Log information and destroy the game object after the animation
+
+        // hide hover then destroy
+        HideMessageHoverUI();
         ShowArtefactInfo();
         Destroy(gameObject);
 
-        // Optionally unpause the player
         playerInScene.SetPaused(false);
     }
 
@@ -94,15 +95,15 @@ public class PickupObjects : Interactable
         Debug.Log("Performing scanning animation");
         if (scannerObject == null) yield break;
 
-        // Pause the player
+        // pause player
         playerInScene.SetPaused(true);
 
-        // Activate the scanner and set its position
+        // initialize scanner graphic
         scannerObject.SetActive(true);
-        scannerObject.transform.localPosition = startPosition; // Ensure it's at the correct start position
+        scannerObject.transform.localPosition = startPosition; 
         //Debug.Log("Scanner starting at: " + scannerObject.transform.localPosition);
 
-        // Move to the end position
+        // move in
         float elapsed = 0f;
         while (elapsed < lerpDuration)
         {
@@ -113,7 +114,7 @@ public class PickupObjects : Interactable
         }
         scannerObject.transform.localPosition = endPosition;
 
-        // Move back to the start position
+        // move out
         elapsed = 0f;
         while (elapsed < lerpDuration)
         {
@@ -126,7 +127,7 @@ public class PickupObjects : Interactable
 
         AudioManager.Instance.PlaySFX(AudioManager.Instance.itemEquip);
 
-        // Disable the scanner
+        // deactivate scanner graphic
         scannerObject.SetActive(false);
         playerInScene.SetPaused(false);
         Debug.Log("Scanner animation completed and disabled.");
