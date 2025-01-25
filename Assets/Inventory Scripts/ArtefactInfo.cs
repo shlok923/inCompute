@@ -16,7 +16,9 @@ public class ArtefactInfo : MonoBehaviour {
         if (isShowing) return;
 
         Artefact artefactToShow = heldInventory.slot.artefact;
+        Debug.Log(">> " + artefactToShow.ToString());
         if (artefactToShow == null) return;
+        Debug.Log("> " + artefactToShow.type.ToString());
         if (artefactToShow.type != Artefact.Type.hint) return;
 
         gameObject.SetActive(true);

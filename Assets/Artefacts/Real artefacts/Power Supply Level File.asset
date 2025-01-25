@@ -16,4 +16,4 @@ MonoBehaviour:
   model: {fileID: -5429438084546490799, guid: 063e56950cdf24b4f8423c464ebddede, type: 3}
   sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   infoSprite: {fileID: 0}
-  type: 1
+  type: 0
