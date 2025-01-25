@@ -24,12 +24,16 @@ public class InventoryManager : MonoBehaviour {
     public HeldInventoy heldInventory;
     //public List<ArtefactManager> testArtefacts;
 
+    public GameInput gameInput;
+
     private void Awake() {
         player = FindFirstObjectByType<Player>();
         cardHolder = FindFirstObjectByType<CardHolder>();
         inventoryOffSprite = inventoryToggle.sprite;
 
         InstantiateSlots();
+
+        gameInput.OnInventoryToggle += GameInput_OnInventoryToggle;
     }
 
     //private void Start() {
@@ -39,6 +43,11 @@ public class InventoryManager : MonoBehaviour {
     //        occupied[i] = true;
     //    }
     //}
+
+    private void GameInput_OnInventoryToggle(object sender, EventArgs e)
+    {
+        ToggleInventory();
+    }
 
     private void InstantiateSlots() {
         slots = new List<SlotManager>();

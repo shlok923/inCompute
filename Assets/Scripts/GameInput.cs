@@ -9,6 +9,7 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnInteractAction;
     public event EventHandler OnInteractAlternateAction;
     public event EventHandler OnMirrorRotationAction; 
+    public event EventHandler OnInventoryToggle;
 
 
     private void Awake()
@@ -19,6 +20,13 @@ public class GameInput : MonoBehaviour
         playerInputActions.Player.Interact.performed += Interact_performed;
         playerInputActions.Player.InteractAlternate.performed += InteractAlternate_performed;
         playerInputActions.Player.RotateMirror.performed += RotateMirror_performed;
+        //playerInputActions.Player./
+        playerInputActions.Player.InventoryToggle.performed += InventoryToggle_performed;
+    }
+
+    private void InventoryToggle_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnInventoryToggle?.Invoke(this, EventArgs.Empty);
     }
 
     private void RotateMirror_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

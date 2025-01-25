@@ -161,7 +161,7 @@ public class MotherboardLevelManager : MonoBehaviour
         Debug.Log("SplitTheChip Coroutine Finished");
 
 
-        SceneManagerScript.Instance.ChangeScene("Menu");
+        SceneManagerScript.Instance.ChangeScene("Game End");
     }
 
 

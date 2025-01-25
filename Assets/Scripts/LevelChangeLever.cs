@@ -68,6 +68,17 @@ public class LevelChangeLever : Interactable
             }
         }
     }
+    public override void ShowMessageHoverUI(string hoverUIMessage)
+    {
+        base.ShowMessageHoverUI(hoverUIMessage);
+        UIManager.Instance.ShowHoverUI(hoverUIMessage);
+    }
+
+    public override void HideMessageHoverUI()
+    {
+        base.HideMessageHoverUI();
+        UIManager.Instance.HideHoverUI();
+    }
     private void ToggleRotationState()
     {
         targetRotation = targetRotation == stateOne ? stateTwo : stateOne;

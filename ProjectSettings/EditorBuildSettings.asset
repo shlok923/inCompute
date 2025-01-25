@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/GameScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/Pause.unity
-    guid: a5d64fa78dc6b674b88673c4617a6639
+    path: Assets/Scenes/Game End.unity
+    guid: d9bdeb7f3d9c73c46a294155d5c31c08
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

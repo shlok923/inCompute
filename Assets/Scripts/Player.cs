@@ -238,7 +238,7 @@ public class Player : MonoBehaviour, IObjectParent
         }
 
         // Smooth rotation
-        float rotateSpeed = 10f;
+        float rotateSpeed = 20f;
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
     }
 
